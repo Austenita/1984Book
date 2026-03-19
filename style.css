@@ -124,7 +124,61 @@ footer {
   h1 {
     font-size: 2.5rem;
   }
+/* NAV con Flexbox */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
+/* LINKS en fila */
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
+
+/* HERO centrado */
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* CONTENEDOR GENERAL */
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* TARJETAS FLEX */
+.flex-card {
+  flex: 1 1 300px; /* crece, encoge, base */
+  background: #171a21;
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+/* CENTRADO COMPLETO */
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .flex-container {
+    flex-direction: column;
+  }
+}
   .nav {
     flex-direction: column;
     gap: 1rem;
