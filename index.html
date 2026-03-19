@@ -1,96 +1,898 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>1984 - George Orwell</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1984 - George Orwell</title>
+  <style>
+    :root {
+      --bg: #050505;
+      --bg-secondary: #0d0d0d;
+      --panel: rgba(20, 20, 20, 0.9);
+      --red: #c40000;
+      --red-soft: #ff2a2a;
+      --text: #f2f2f2;
+      --muted: #b6b6b6;
+      --line: rgba(255, 0, 0, 0.18);
+      --shadow: 0 0 20px rgba(196, 0, 0, 0.25);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(196, 0, 0, 0.1), transparent 30%),
+        linear-gradient(to bottom, #000000, #070707 35%, #000000 100%);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.015),
+          rgba(255, 255, 255, 0.015) 1px,
+          transparent 1px,
+          transparent 4px
+        );
+      pointer-events: none;
+      opacity: 0.18;
+      z-index: 999;
+    }
+
+    .particles {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 60px;
+      background: linear-gradient(to bottom, rgba(255, 0, 0, 0), rgba(255, 0, 0, 0.45), rgba(255, 0, 0, 0));
+      animation: fall linear infinite;
+      opacity: 0.35;
+    }
+
+    @keyframes fall {
+      from {
+        transform: translateY(-120px);
+      }
+      to {
+        transform: translateY(110vh);
+      }
+    }
+
+    header {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      position: relative;
+      padding: 2rem;
+      border-bottom: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    .hero {
+      max-width: 1100px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .hero-text {
+      z-index: 2;
+    }
+
+    .eyebrow {
+      color: var(--red-soft);
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      opacity: 0.9;
+    }
+
+    h1 {
+      font-size: clamp(3rem, 7vw, 6rem);
+      line-height: 0.95;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 20px rgba(255, 0, 0, 0.35);
+    }
+
+    .hero-text h1 span {
+      color: var(--red-soft);
+      display: block;
+    }
+
+    .hero-text p {
+      max-width: 700px;
+      color: var(--muted);
+      font-size: 1.08rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.95rem 1.4rem;
+      border: 1px solid var(--red);
+      color: var(--text);
+      text-decoration: none;
+      background: transparent;
+      transition: 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: var(--red);
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+    }
+
+    .btn.secondary {
+      border-color: #666;
+      color: #ddd;
+    }
+
+    .btn.secondary:hover {
+      border-color: var(--red-soft);
+      color: white;
+      background: rgba(196, 0, 0, 0.18);
+    }
+
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 500px;
+    }
+
+    .eye {
+      width: 320px;
+      height: 320px;
+      border: 2px solid rgba(255, 0, 0, 0.35);
+      border-radius: 50%;
+      position: relative;
+      display: grid;
+      place-items: center;
+      box-shadow:
+        0 0 30px rgba(196, 0, 0, 0.15),
+        inset 0 0 40px rgba(196, 0, 0, 0.08);
+      background: radial-gradient(circle, rgba(120, 0, 0, 0.18), rgba(0, 0, 0, 0.95));
+      animation: pulse 4s infinite ease-in-out;
+    }
+
+    .eye::before,
+    .eye::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    .eye::before {
+      width: 180px;
+      height: 180px;
+      border: 1px solid rgba(255, 0, 0, 0.4);
+    }
+
+    .eye::after {
+      width: 70px;
+      height: 70px;
+      background: radial-gradient(circle, #ff3b3b, #720000 70%, #230000);
+      box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
+    }
+
+    .eye-label {
+      position: absolute;
+      bottom: -2.2rem;
+      text-transform: uppercase;
+      letter-spacing: 6px;
+      color: var(--red-soft);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow:
+          0 0 30px rgba(196, 0, 0, 0.15),
+          inset 0 0 40px rgba(196, 0, 0, 0.08);
+      }
+      50% {
+        transform: scale(1.04);
+        box-shadow:
+          0 0 45px rgba(255, 0, 0, 0.25),
+          inset 0 0 55px rgba(255, 0, 0, 0.12);
+      }
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo {
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: var(--red-soft);
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: #ddd;
+      text-decoration: none;
+      font-size: 0.95rem;
+      position: relative;
+      padding-bottom: 0.2rem;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 0;
+      height: 2px;
+      background: var(--red-soft);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    section {
+      margin-bottom: 4rem;
+      padding: 2rem;
+      background: linear-gradient(180deg, rgba(20, 20, 20, 0.8), rgba(10, 10, 10, 0.95));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.03), transparent);
+      transform: translateX(-100%);
+      transition: transform 1s ease;
+    }
+
+    section:hover::before {
+      transform: translateX(100%);
+    }
+
+    h2 {
+      font-size: 2rem;
+      color: var(--red-soft);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .section-intro {
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      max-width: 850px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 0, 0, 0.12);
+      padding: 1.4rem;
+      transition: 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255, 0, 0, 0.4);
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.12);
+    }
+
+    .card h3 {
+      color: #fff;
+      margin-bottom: 0.7rem;
+      font-size: 1.15rem;
+    }
+
+    .card p {
+      color: var(--muted);
+    }
+
+    .quote-box {
+      border-left: 4px solid var(--red);
+      padding: 1.2rem 1.2rem 1.2rem 1.5rem;
+      background: rgba(255, 0, 0, 0.04);
+      font-size: 1.1rem;
+      color: #f0f0f0;
+      margin-top: 1.5rem;
+    }
+
+    .timeline {
+      position: relative;
+      margin-top: 2rem;
+      padding-left: 1.5rem;
+      border-left: 2px solid rgba(255, 0, 0, 0.25);
+    }
+
+    .timeline-item {
+      margin-bottom: 1.8rem;
+      position: relative;
+      padding-left: 1rem;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -1.95rem;
+      top: 0.35rem;
+      width: 12px;
+      height: 12px;
+      background: var(--red-soft);
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    }
+
+    .timeline-item h4 {
+      color: #fff;
+      margin-bottom: 0.35rem;
+    }
+
+    .timeline-item p {
+      color: var(--muted);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .stat {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 0, 0, 0.15);
+    }
+
+    .stat span {
+      display: block;
+      font-size: 2rem;
+      color: var(--red-soft);
+      font-weight: 900;
+      margin-bottom: 0.4rem;
+    }
+
+    .stat small {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .warning-panel {
+      margin-top: 2rem;
+      padding: 1.4rem;
+      border: 1px solid rgba(255, 0, 0, 0.25);
+      background: rgba(255, 0, 0, 0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .warning-panel strong {
+      color: var(--red-soft);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .terminal {
+      background: #020202;
+      border: 1px solid rgba(255, 0, 0, 0.2);
+      padding: 1rem;
+      margin-top: 1.5rem;
+      font-family: "Courier New", monospace;
+      color: #ff6363;
+      min-height: 90px;
+      white-space: pre-line;
+      box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.08);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem 3rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      background: #030303;
+    }
+
+    footer p {
+      margin-bottom: 0.5rem;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 920px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-text p {
+        margin-inline: auto;
+      }
+
+      .hero-buttons {
+        justify-content: center;
+      }
+
+      .grid-2,
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      h1 {
+        font-size: 3rem;
+      }
+
+      .nav-container {
+        flex-direction: column;
+      }
+
+      .grid-2,
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 1.4rem;
+      }
+
+      .eye {
+        width: 240px;
+        height: 240px;
+      }
+
+      .eye::before {
+        width: 130px;
+        height: 130px;
+      }
+
+      .eye::after {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div class="particles" id="particles"></div>
 
-<header class="hero">
-    <div class="overlay">
-        <h1>1984</h1>
-        <h2>George Orwell</h2>
-        <p class="slogan">"Big Brother is Watching You"</p>
+  <header id="inicio">
+    <div class="hero">
+      <div class="hero-text">
+        <div class="eyebrow">Distopía · Vigilancia · Control</div>
+        <h1>1984 <span>George Orwell</span></h1>
+        <p>
+          Una inmersión en el universo oscuro de <strong>George Orwell</strong>, donde la libertad,
+          la verdad y la identidad son aplastadas por un sistema totalitario. Esta página explora
+          la historia de <em>Winston Smith</em>, el poder del Gran Hermano y los temas que convierten
+          a <strong>1984</strong> en una de las novelas más impactantes de todos los tiempos.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="#historia" class="btn">Explorar historia</a>
+          <a href="#temas" class="btn secondary">Ver temáticas</a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="eye">
+          <div class="eye-label">Big Brother is watching you</div>
+        </div>
+      </div>
     </div>
-</header>
+  </header>
 
-<nav>
-    <ul>
-        <li><a href="#sinopsis">Sinopsis</a></li>
-        <li><a href="#personajes">Personajes</a></li>
-        <li><a href="#conceptos">Conceptos</a></li>
-        <li><a href="#frases">Frases</a></li>
-        <li><a href="#galeria">Galería</a></li>
-    </ul>
-</nav>
-
-<section id="sinopsis" class="section">
-    <h2>Sinopsis</h2>
-    <p>
-        Publicada en 1949, 1984 es una novela distópica que presenta un estado totalitario 
-        donde el Partido controla todos los aspectos de la vida. Winston Smith, el protagonista,
-        lucha silenciosamente contra la opresión del Gran Hermano y la manipulación de la verdad.
-    </p>
-</section>
-
-<section id="personajes" class="section dark">
-    <h2>Personajes Principales</h2>
-    <div class="cards">
-        <div class="card">
-            <h3>Winston Smith</h3>
-            <p>Empleado del Ministerio de la Verdad que comienza a cuestionar el sistema.</p>
-        </div>
-        <div class="card">
-            <h3>Julia</h3>
-            <p>Rebelde silenciosa que desafía al Partido a través de actos personales.</p>
-        </div>
-        <div class="card">
-            <h3>O'Brien</h3>
-            <p>Miembro del Partido Interior con un papel clave en la manipulación ideológica.</p>
-        </div>
-        <div class="card">
-            <h3>Gran Hermano</h3>
-            <p>Figura omnipresente que simboliza el control absoluto del Estado.</p>
-        </div>
+  <nav>
+    <div class="nav-container">
+      <div class="logo">1984</div>
+      <div class="nav-links">
+        <a href="#historia">Historia</a>
+        <a href="#personajes">Personajes</a>
+        <a href="#temas">Temas</a>
+        <a href="#orwell">George Orwell</a>
+        <a href="#impacto">Impacto</a>
+      </div>
     </div>
-</section>
+  </nav>
 
-<section id="conceptos" class="section">
-    <h2>Conceptos Clave</h2>
-    <ul class="concept-list">
-        <li><strong>Gran Hermano:</strong> Vigilancia constante.</li>
-        <li><strong>Neolengua:</strong> Manipulación del lenguaje para controlar el pensamiento.</li>
-        <li><strong>Doblepensar:</strong> Aceptar dos ideas contradictorias como verdaderas.</li>
-        <li><strong>Ministerio de la Verdad:</strong> Reescritura de la historia.</li>
-        <li><strong>Policía del Pensamiento:</strong> Represión de ideas disidentes.</li>
-    </ul>
-</section>
+  <main>
+    <section id="historia" class="reveal">
+      <h2>La historia</h2>
+      <p class="section-intro">
+        <strong>1984</strong> nos sitúa en Oceanía, un estado totalitario donde el Partido controla
+        cada aspecto de la vida. Winston Smith, un trabajador del Ministerio de la Verdad, comienza
+        a cuestionar el sistema, a dudar de la propaganda y a buscar algo prohibido: la verdad.
+      </p>
 
-<section id="frases" class="section dark">
-    <h2>Frases Icónicas</h2>
-    <blockquote>
-        "La guerra es la paz. La libertad es la esclavitud. La ignorancia es la fuerza."
-    </blockquote>
-    <blockquote>
-        "Si quieres una imagen del futuro, imagina una bota aplastando un rostro humano... para siempre."
-    </blockquote>
-</section>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Un mundo dominado por el miedo</h3>
+          <p>
+            La sociedad vive bajo vigilancia constante. Las telepantallas observan, los pensamientos
+            se castigan y la historia se reescribe para servir al poder. Nada pertenece al individuo:
+            ni la memoria, ni el lenguaje, ni siquiera la intimidad.
+          </p>
+        </div>
 
-<section id="galeria" class="section">
-    <h2>Galería</h2>
-    <div class="gallery">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/1984first.jpg" alt="Portada original 1984">
-        <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f" alt="Libro antiguo oscuro">
-        <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66" alt="Biblioteca oscura">
-        <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba" alt="Ambiente distópico">
-    </div>
-</section>
+        <div class="card">
+          <h3>La rebelión de Winston</h3>
+          <p>
+            Winston inicia una lucha silenciosa contra el sistema. Su deseo de recordar, amar y pensar
+            libremente lo lleva a desafiar al Partido, aunque en un mundo así la rebeldía tiene un precio brutal.
+          </p>
+        </div>
+      </div>
 
-<footer>
-    <p>Proyecto visual inspirado en la obra 1984 de George Orwell</p>
-</footer>
+      <div class="timeline">
+        <div class="timeline-item">
+          <h4>1. La rutina en el Ministerio de la Verdad</h4>
+          <p>Winston altera documentos para que el pasado siempre coincida con la versión oficial del Partido.</p>
+        </div>
+        <div class="timeline-item">
+          <h4>2. El inicio de la duda</h4>
+          <p>Empieza a escribir un diario y a cuestionar el control absoluto que define su mundo.</p>
+        </div>
+        <div class="timeline-item">
+          <h4>3. El vínculo con Julia</h4>
+          <p>Encuentra en el amor y la intimidad una forma de resistencia frente a la deshumanización.</p>
+        </div>
+        <div class="timeline-item">
+          <h4>4. La ilusión de la rebelión</h4>
+          <p>Winston cree acercarse a una oposición real, pero el sistema siempre parece ir un paso por delante.</p>
+        </div>
+        <div class="timeline-item">
+          <h4>5. La caída</h4>
+          <p>La maquinaria del poder demuestra que no busca solo obediencia: busca dominar el alma.</p>
+        </div>
+      </div>
 
+      <div class="quote-box">
+        En <strong>1984</strong>, el horror no nace solamente de la violencia, sino del control de la verdad,
+        del lenguaje y de la capacidad humana de pensar por sí misma.
+      </div>
+    </section>
+
+    <section id="personajes" class="reveal">
+      <h2>Personajes principales</h2>
+      <p class="section-intro">
+        La novela construye su fuerza a través de personajes que representan resistencia, manipulación,
+        deseo, miedo y sometimiento.
+      </p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>Winston Smith</h3>
+          <p>
+            El protagonista. Un hombre común atrapado en una maquinaria opresiva. Su conflicto interno
+            es el corazón de la novela: desea la verdad en un mundo fabricado por la mentira.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Julia</h3>
+          <p>
+            Rebelde a su manera, desafía al sistema desde el cuerpo, el deseo y la vida privada.
+            Representa una forma más instintiva y emocional de resistencia.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>O'Brien</h3>
+          <p>
+            Inteligente, ambiguo y perturbador. Es una figura clave del poder totalitario y del modo
+            en que el Partido destruye cualquier esperanza de libertad verdadera.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>El Gran Hermano</h3>
+          <p>
+            Más que una persona, es un símbolo. Encierra el rostro del control absoluto, la propaganda,
+            la adoración forzada y la presencia constante del poder.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="temas" class="reveal">
+      <h2>Temáticas de George Orwell en 1984</h2>
+      <p class="section-intro">
+        George Orwell construyó una obra que va mucho más allá de una simple historia futurista. 
+        <strong>1984</strong> es una crítica profunda a los sistemas totalitarios, a la manipulación política
+        y a la fragilidad de la libertad humana.
+      </p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>Vigilancia total</h3>
+          <p>
+            Nada escapa al ojo del poder. La vigilancia constante destruye la intimidad y convierte
+            a cada ciudadano en prisionero de su propia conducta.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Manipulación de la verdad</h3>
+          <p>
+            El Partido controla el pasado para controlar el presente. Si la historia puede alterarse,
+            entonces también puede alterarse la realidad.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>El lenguaje como arma</h3>
+          <p>
+            La neolengua reduce palabras y, con ello, reduce ideas. Orwell muestra cómo limitar el lenguaje
+            es también limitar el pensamiento crítico.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Deshumanización</h3>
+          <p>
+            El totalitarismo no solo gobierna cuerpos; busca romper vínculos, destruir la identidad y
+            anular cualquier emoción que compita con la obediencia al poder.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Propaganda y miedo</h3>
+          <p>
+            El régimen se sostiene mediante eslóganes, enemigos permanentes y una atmósfera constante de amenaza.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>La imposibilidad de la libertad</h3>
+          <p>
+            La novela plantea una pregunta inquietante: ¿qué ocurre cuando un sistema logra dominar no solo la
+            conducta, sino también la mente y la percepción de la realidad?
+          </p>
+        </div>
+      </div>
+
+      <div class="warning-panel">
+        <div>
+          <strong>Advertencia del Partido</strong><br>
+          Pensar diferente es el primer acto de rebeldía.
+        </div>
+        <button class="btn" id="truthBtn">Revelar mensaje</button>
+      </div>
+
+      <div class="terminal" id="terminal">
+        > Sistema listo...
+      </div>
+    </section>
+
+    <section id="orwell" class="reveal">
+      <h2>George Orwell y su visión</h2>
+      <p class="section-intro">
+        George Orwell fue un escritor profundamente preocupado por el abuso del poder, la censura, la propaganda
+        y las deformaciones políticas de la verdad. En <strong>1984</strong>, su visión toma forma en una distopía
+        donde el control ideológico es tan fuerte que invade incluso los pensamientos más íntimos.
+      </p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>Crítica al totalitarismo</h3>
+          <p>
+            Orwell imaginó una sociedad extrema para advertir sobre tendencias reales: gobiernos autoritarios,
+            culto al líder, manipulación masiva y eliminación del pensamiento independiente.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Literatura como advertencia</h3>
+          <p>
+            La novela funciona como una alarma cultural. No describe solo un futuro posible, sino mecanismos
+            de poder que pueden aparecer en cualquier época cuando la libertad deja de defenderse.
+          </p>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <span>1</span>
+          <small>Gran Hermano</small>
+        </div>
+        <div class="stat">
+          <span>3</span>
+          <small>Superestados</small>
+        </div>
+        <div class="stat">
+          <span>∞</span>
+          <small>Vigilancia</small>
+        </div>
+        <div class="stat">
+          <span>0</span>
+          <small>Privacidad</small>
+        </div>
+      </div>
+    </section>
+
+    <section id="impacto" class="reveal">
+      <h2>Impacto de la obra</h2>
+      <p class="section-intro">
+        <strong>1984</strong> permanece vigente porque muchas de sus ideas siguen resonando en debates actuales:
+        vigilancia tecnológica, manipulación informativa, polarización, censura y control narrativo.
+      </p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>Una novela atemporal</h3>
+          <p>
+            La fuerza de la obra está en su capacidad para seguir incomodando. Su mundo parece lejano,
+            pero sus advertencias se sienten demasiado cercanas.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Legado cultural</h3>
+          <p>
+            Expresiones como “Gran Hermano”, “doblepensar” o “Ministerio de la Verdad” se han convertido
+            en referencias universales para hablar del abuso político y mediático.
+          </p>
+        </div>
+      </div>
+
+      <div class="quote-box">
+        <strong>1984</strong> no solo cuenta una historia: obliga al lector a preguntarse cuánto vale la verdad
+        cuando el poder decide fabricarla.
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Diseño web inspirado en la atmósfera de <strong>1984</strong> de George Orwell.</p>
+    <p>Colores negro y rojo · Estética distópica · Narrativa centrada en vigilancia, poder y verdad.</p>
+  </footer>
+
+  <script>
+    // Partículas rojas en el fondo
+    const particlesContainer = document.getElementById("particles");
+
+    for (let i = 0; i < 45; i++) {
+      const particle = document.createElement("div");
+      particle.classList.add("particle");
+      particle.style.left = Math.random() * 100 + "vw";
+      particle.style.height = 30 + Math.random() * 80 + "px";
+      particle.style.animationDuration = 4 + Math.random() * 8 + "s";
+      particle.style.animationDelay = Math.random() * 5 + "s";
+      particle.style.opacity = 0.08 + Math.random() * 0.35;
+      particlesContainer.appendChild(particle);
+    }
+
+    // Efecto reveal al hacer scroll
+    const reveals = document.querySelectorAll(".reveal");
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.15 });
+
+    reveals.forEach(el => observer.observe(el));
+
+    // Botón de mensaje temático
+    const truthBtn = document.getElementById("truthBtn");
+    const terminal = document.getElementById("terminal");
+
+    const messages = [
+      "> Reescribiendo archivos del pasado...",
+      "> Detectando pensamiento crítico...",
+      "> La verdad oficial ha sido actualizada.",
+      "> La libertad comienza cuando alguien duda.",
+      "> El poder absoluto no solo vigila: redefine la realidad.",
+      "> Winston Smith ha sido marcado como elemento inestable.",
+      "> El lenguaje reducido produce mentes reducidas.",
+      "> George Orwell convirtió el miedo político en literatura inmortal."
+    ];
+
+    let current = 0;
+
+    truthBtn.addEventListener("click", () => {
+      terminal.textContent = messages[current];
+      current = (current + 1) % messages.length;
+    });
+
+    // Destello ligero del título con el movimiento del mouse
+    const heroTitle = document.querySelector("h1");
+
+    window.addEventListener("mousemove", (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 20;
+      const y = (e.clientY / window.innerHeight - 0.5) * 20;
+      heroTitle.style.textShadow = `${x}px ${y}px 24px rgba(255,0,0,0.25)`;
+    });
+  </script>
 </body>
 </html>
