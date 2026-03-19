@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1984 | George Orwell</title>
+  <style>
+    :root {
+      --bg: #0f1115;
+      --panel: #171a21;
+      --text: #e9edf3;
+      --muted: #b6c0cf;
+      --accent: #d64545;
+      --line: #2c3442;
+      --max: 1100px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f1115;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container { width: min(92%, var(--max)); margin: auto; }
+
+    header { border-bottom: 1px solid #2c3442; }
+
+    .nav { display: flex; justify-content: space-between; padding: 1rem 0; }
+
+    .nav a { color: var(--muted); text-decoration: none; margin-left: 1rem; }
+
+    .hero { padding: 4rem 0; }
+
+    h1 { font-size: 4rem; margin-bottom: 1rem; }
+
+    section { padding: 3rem 0; }
+
+    .card {
+      background: #171a21;
+      padding: 1rem;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <strong>1984</strong>
+    <div>
+      <a href="#about">Sobre</a>
+      <a href="#temas">Temas</a>
+      <a href="#personajes">Personajes</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero container">
+  <h1>1984</h1>
+  <p>
+    Novela distópica de George Orwell que describe una sociedad totalitaria donde el gobierno controla la verdad,
+    el pensamiento y la libertad individual.
+  </p>
+</section>
+
+<section id="about" class="container">
+  <h2>Sobre la novela</h2>
+  <div class="grid">
+    <div class="card">
+      <p><strong>Autor:</strong> George Orwell</p>
+      <p><strong>Año:</strong> 1949</p>
+      <p><strong>Género:</strong> Ficción distópica</p>
+    </div>
+    <div class="card">
+      <p>
+        La historia sigue a Winston Smith, un hombre que comienza a cuestionar el sistema opresivo en el que vive.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="temas" class="container">
+  <h2>Temas principales</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Vigilancia</h3>
+      <p>El gobierno observa constantemente a los ciudadanos.</p>
+    </div>
+    <div class="card">
+      <h3>Control de la verdad</h3>
+      <p>La historia es manipulada para mantener el poder.</p>
+    </div>
+    <div class="card">
+      <h3>Lenguaje</h3>
+      <p>El lenguaje se usa como herramienta de control mental.</p>
+    </div>
+  </div>
+</section>
+
+<section id="personajes" class="container">
+  <h2>Personajes</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Winston Smith</h3>
+      <p>Protagonista que cuestiona el sistema.</p>
+    </div>
+    <div class="card">
+      <h3>Julia</h3>
+      <p>Rebelde que desafía al Partido.</p>
+    </div>
+    <div class="card">
+      <h3>O'Brien</h3>
+      <p>Representa el poder del sistema.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="container">
+  <p>Proyecto para GitHub Pages - 1984</p>
+</footer>
+
+</body>
+</html>
+
