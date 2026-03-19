@@ -1,63 +1,95 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>1984 - Proyecto Web</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <title>1984 - George Orwell</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<header>
-  <div class="container nav">
-    <h2>1984</h2>
-    <div class="nav-links">
-      <a href="#about">Sobre</a>
-      <a href="#temas">Temas</a>
-      <a href="#personajes">Personajes</a>
+<header class="hero">
+    <div class="overlay">
+        <h1>1984</h1>
+        <h2>George Orwell</h2>
+        <p class="slogan">"Big Brother is Watching You"</p>
     </div>
-  </div>
 </header>
 
-<section class="hero container">
-  <h1>1984</h1>
-  <p>Novela de George Orwell sobre vigilancia, control y manipulación de la verdad.</p>
+<nav>
+    <ul>
+        <li><a href="#sinopsis">Sinopsis</a></li>
+        <li><a href="#personajes">Personajes</a></li>
+        <li><a href="#conceptos">Conceptos</a></li>
+        <li><a href="#frases">Frases</a></li>
+        <li><a href="#galeria">Galería</a></li>
+    </ul>
+</nav>
+
+<section id="sinopsis" class="section">
+    <h2>Sinopsis</h2>
+    <p>
+        Publicada en 1949, 1984 es una novela distópica que presenta un estado totalitario 
+        donde el Partido controla todos los aspectos de la vida. Winston Smith, el protagonista,
+        lucha silenciosamente contra la opresión del Gran Hermano y la manipulación de la verdad.
+    </p>
 </section>
 
-<section id="about" class="container">
-  <h2>Sobre la novela</h2>
-  <div class="flex-row">
-    <div class="card">
-      <p><strong>Autor:</strong> George Orwell</p>
-      <p><strong>Año:</strong> 1949</p>
-      <p><strong>Género:</strong> Distopía</p>
+<section id="personajes" class="section dark">
+    <h2>Personajes Principales</h2>
+    <div class="cards">
+        <div class="card">
+            <h3>Winston Smith</h3>
+            <p>Empleado del Ministerio de la Verdad que comienza a cuestionar el sistema.</p>
+        </div>
+        <div class="card">
+            <h3>Julia</h3>
+            <p>Rebelde silenciosa que desafía al Partido a través de actos personales.</p>
+        </div>
+        <div class="card">
+            <h3>O'Brien</h3>
+            <p>Miembro del Partido Interior con un papel clave en la manipulación ideológica.</p>
+        </div>
+        <div class="card">
+            <h3>Gran Hermano</h3>
+            <p>Figura omnipresente que simboliza el control absoluto del Estado.</p>
+        </div>
     </div>
-    <div class="card">
-      <p>La historia sigue a Winston Smith en una sociedad controlada por el Partido.</p>
+</section>
+
+<section id="conceptos" class="section">
+    <h2>Conceptos Clave</h2>
+    <ul class="concept-list">
+        <li><strong>Gran Hermano:</strong> Vigilancia constante.</li>
+        <li><strong>Neolengua:</strong> Manipulación del lenguaje para controlar el pensamiento.</li>
+        <li><strong>Doblepensar:</strong> Aceptar dos ideas contradictorias como verdaderas.</li>
+        <li><strong>Ministerio de la Verdad:</strong> Reescritura de la historia.</li>
+        <li><strong>Policía del Pensamiento:</strong> Represión de ideas disidentes.</li>
+    </ul>
+</section>
+
+<section id="frases" class="section dark">
+    <h2>Frases Icónicas</h2>
+    <blockquote>
+        "La guerra es la paz. La libertad es la esclavitud. La ignorancia es la fuerza."
+    </blockquote>
+    <blockquote>
+        "Si quieres una imagen del futuro, imagina una bota aplastando un rostro humano... para siempre."
+    </blockquote>
+</section>
+
+<section id="galeria" class="section">
+    <h2>Galería</h2>
+    <div class="gallery">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/1984first.jpg" alt="Portada original 1984">
+        <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f" alt="Libro antiguo oscuro">
+        <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66" alt="Biblioteca oscura">
+        <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba" alt="Ambiente distópico">
     </div>
-  </div>
 </section>
 
-<section id="temas" class="container">
-  <h2>Temas</h2>
-  <div class="flex-align">
-    <div class="box">Vigilancia</div>
-    <div class="box">Control</div>
-    <div class="box">Lenguaje</div>
-  </div>
-</section>
-
-<section id="personajes" class="container">
-  <h2>Personajes</h2>
-  <div class="flex-container">
-    <div class="card">Winston</div>
-    <div class="card">Julia</div>
-    <div class="card">O'Brien</div>
-  </div>
-</section>
-
-<footer class="container">
-  <p>Proyecto GitHub Pages - 1984</p>
+<footer>
+    <p>Proyecto visual inspirado en la obra 1984 de George Orwell</p>
 </footer>
 
 </body>
