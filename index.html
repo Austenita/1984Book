@@ -3,896 +3,2167 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>1984 - George Orwell</title>
+  <title>1984 — V2 / Vigilancia Total</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Inter:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+
   <style>
-    :root {
-      --bg: #050505;
-      --bg-secondary: #0d0d0d;
-      --panel: rgba(20, 20, 20, 0.9);
-      --red: #c40000;
-      --red-soft: #ff2a2a;
-      --text: #f2f2f2;
-      --muted: #b6b6b6;
-      --line: rgba(255, 0, 0, 0.18);
-      --shadow: 0 0 20px rgba(196, 0, 0, 0.25);
+    :root{
+      --bg:#050505;
+      --bg-2:#090807;
+      --bg-3:#0f0c0a;
+      --paper:#eadfcb;
+      --paper-2:#cabda9;
+      --muted:#ac9d8a;
+      --line:rgba(255,255,255,.08);
+      --line-2:rgba(255,255,255,.04);
+      --glass:rgba(255,255,255,.03);
+      --red:#7f0b0b;
+      --red-2:#b91414;
+      --red-3:#e03333;
+      --gold:#7d6330;
+      --metal-1:#1d1b19;
+      --metal-2:#2a2622;
+      --metal-3:#3a342d;
+      --shadow:rgba(0,0,0,.6);
+      --green:#6e8f7e;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
+    html, body{
+      width:100%;
+      min-height:100%;
       background:
-        radial-gradient(circle at top, rgba(196, 0, 0, 0.1), transparent 30%),
-        linear-gradient(to bottom, #000000, #070707 35%, #000000 100%);
-      color: var(--text);
-      overflow-x: hidden;
-      line-height: 1.6;
+        radial-gradient(circle at 50% 15%, rgba(255,255,255,.03), transparent 18%),
+        radial-gradient(circle at 50% 0%, rgba(185,20,20,.08), transparent 22%),
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,.015), transparent 25%),
+        linear-gradient(180deg, #0c0908 0%, #040404 35%, #080706 100%);
+      color:var(--paper);
+      font-family:"Inter", system-ui, sans-serif;
+      overflow-x:hidden;
+      scroll-behavior:smooth;
+      cursor:none;
     }
 
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:300;
       background:
         repeating-linear-gradient(
           to bottom,
-          rgba(255, 255, 255, 0.015),
-          rgba(255, 255, 255, 0.015) 1px,
-          transparent 1px,
+          rgba(255,255,255,.03) 0px,
+          rgba(255,255,255,.03) 1px,
+          transparent 2px,
           transparent 4px
         );
-      pointer-events: none;
-      opacity: 0.18;
-      z-index: 999;
+      opacity:.28;
+      mix-blend-mode:soft-light;
+      animation:scanMove 7.5s linear infinite;
     }
 
-    .particles {
-      position: fixed;
-      inset: 0;
-      overflow: hidden;
-      z-index: -1;
+    body::after{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:299;
+      background:
+        radial-gradient(circle at center, transparent 0 30%, rgba(0,0,0,.18) 52%, rgba(0,0,0,.72) 100%);
     }
 
-    .particle {
-      position: absolute;
-      width: 2px;
-      height: 60px;
-      background: linear-gradient(to bottom, rgba(255, 0, 0, 0), rgba(255, 0, 0, 0.45), rgba(255, 0, 0, 0));
-      animation: fall linear infinite;
-      opacity: 0.35;
+    @keyframes scanMove{
+      0%{ transform:translateY(0); }
+      100%{ transform:translateY(7px); }
     }
 
-    @keyframes fall {
-      from {
-        transform: translateY(-120px);
-      }
-      to {
-        transform: translateY(110vh);
-      }
+    .overlay-noise,
+    .overlay-grain,
+    .overlay-fog,
+    .overlay-grid,
+    .overlay-beams,
+    .overlay-vhs,
+    .overlay-bloom{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
     }
 
-    header {
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      position: relative;
-      padding: 2rem;
-      border-bottom: 1px solid var(--line);
-      overflow: hidden;
+    .overlay-noise{
+      z-index:20;
+      opacity:.07;
+      background-image:
+        radial-gradient(circle at 15% 25%, rgba(255,255,255,.22) 0 1px, transparent 1.7px),
+        radial-gradient(circle at 70% 20%, rgba(255,255,255,.14) 0 1px, transparent 1.8px),
+        radial-gradient(circle at 35% 80%, rgba(255,255,255,.12) 0 1px, transparent 1.7px),
+        radial-gradient(circle at 82% 60%, rgba(255,255,255,.14) 0 1px, transparent 1.7px);
+      background-size:130px 130px, 180px 180px, 220px 220px, 150px 150px;
+      animation:noiseDrift 12s linear infinite alternate;
     }
 
-    .hero {
-      max-width: 1100px;
-      width: 100%;
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 2rem;
-      align-items: center;
+    @keyframes noiseDrift{
+      0%{ transform:translate(0,0) scale(1); }
+      100%{ transform:translate(-18px, 12px) scale(1.03); }
     }
 
-    .hero-text {
-      z-index: 2;
+    .overlay-grain{
+      z-index:21;
+      opacity:.095;
+      mix-blend-mode:soft-light;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+      background-size:260px 260px;
+      animation:grainJump .6s steps(2) infinite;
     }
 
-    .eyebrow {
-      color: var(--red-soft);
-      text-transform: uppercase;
-      letter-spacing: 4px;
-      font-size: 0.9rem;
-      margin-bottom: 1rem;
-      opacity: 0.9;
+    @keyframes grainJump{
+      0%{ transform:translate(0,0); }
+      25%{ transform:translate(-.6%, .5%); }
+      50%{ transform:translate(.7%, -.5%); }
+      75%{ transform:translate(.4%, .6%); }
+      100%{ transform:translate(0,0); }
     }
 
-    h1 {
-      font-size: clamp(3rem, 7vw, 6rem);
-      line-height: 0.95;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-      text-shadow: 0 0 20px rgba(255, 0, 0, 0.35);
+    .overlay-grid{
+      z-index:8;
+      opacity:.22;
+      background:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size:58px 58px;
+      mask-image:radial-gradient(circle at center, black 18%, transparent 85%);
     }
 
-    .hero-text h1 span {
-      color: var(--red-soft);
-      display: block;
+    .overlay-beams{
+      z-index:9;
+      opacity:.75;
+      filter:blur(30px);
+      background:
+        radial-gradient(circle at 50% 10%, rgba(185,20,20,.16), transparent 25%),
+        conic-gradient(from 180deg at 50% 0%, transparent 0 32deg, rgba(255,255,255,.03) 48deg, transparent 64deg 298deg, rgba(255,255,255,.03) 312deg, transparent 326deg 360deg);
     }
 
-    .hero-text p {
-      max-width: 700px;
-      color: var(--muted);
-      font-size: 1.08rem;
-      margin-bottom: 2rem;
+    .overlay-fog{
+      z-index:22;
+      opacity:.9;
+      filter:blur(26px);
+      background:
+        radial-gradient(circle at 15% 25%, rgba(255,255,255,.03), transparent 22%),
+        radial-gradient(circle at 70% 40%, rgba(255,255,255,.028), transparent 26%),
+        radial-gradient(circle at 40% 80%, rgba(255,255,255,.02), transparent 24%),
+        radial-gradient(circle at 90% 15%, rgba(185,20,20,.03), transparent 18%);
+      animation:fogFlow 18s ease-in-out infinite alternate;
     }
 
-    .hero-buttons {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
+    @keyframes fogFlow{
+      0%{ transform:translate3d(-2%, 0, 0) scale(1); }
+      100%{ transform:translate3d(2%, -1%, 0) scale(1.08); }
     }
 
-    .btn {
-      padding: 0.95rem 1.4rem;
-      border: 1px solid var(--red);
-      color: var(--text);
-      text-decoration: none;
-      background: transparent;
-      transition: 0.3s ease;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-weight: bold;
-      cursor: pointer;
+    .overlay-vhs{
+      z-index:301;
+      opacity:.12;
+      mix-blend-mode:screen;
+      background:
+        linear-gradient(180deg, transparent 0%, rgba(255,255,255,.04) 48%, transparent 100%);
+      animation:vhsDrift 7s linear infinite;
     }
 
-    .btn:hover {
-      background: var(--red);
-      box-shadow: var(--shadow);
-      transform: translateY(-2px);
+    @keyframes vhsDrift{
+      0%{ transform:translateY(-100%); }
+      100%{ transform:translateY(100%); }
     }
 
-    .btn.secondary {
-      border-color: #666;
-      color: #ddd;
+    .overlay-bloom{
+      z-index:7;
+      opacity:.65;
+      filter:blur(70px);
+      background:
+        radial-gradient(circle at 50% 8%, rgba(185,20,20,.13), transparent 16%),
+        radial-gradient(circle at 20% 70%, rgba(255,255,255,.03), transparent 18%),
+        radial-gradient(circle at 80% 55%, rgba(255,255,255,.025), transparent 14%);
     }
 
-    .btn.secondary:hover {
-      border-color: var(--red-soft);
-      color: white;
-      background: rgba(196, 0, 0, 0.18);
-    }
-
-    .hero-visual {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 500px;
-    }
-
-    .eye {
-      width: 320px;
-      height: 320px;
-      border: 2px solid rgba(255, 0, 0, 0.35);
-      border-radius: 50%;
-      position: relative;
-      display: grid;
-      place-items: center;
+    .custom-cursor{
+      position:fixed;
+      left:50%;
+      top:50%;
+      width:24px;
+      height:24px;
+      border:1px solid rgba(255,255,255,.55);
+      border-radius:50%;
+      transform:translate(-50%, -50%);
+      pointer-events:none;
+      z-index:500;
+      mix-blend-mode:screen;
+      backdrop-filter:blur(1px);
       box-shadow:
-        0 0 30px rgba(196, 0, 0, 0.15),
-        inset 0 0 40px rgba(196, 0, 0, 0.08);
-      background: radial-gradient(circle, rgba(120, 0, 0, 0.18), rgba(0, 0, 0, 0.95));
-      animation: pulse 4s infinite ease-in-out;
+        0 0 12px rgba(255,255,255,.14),
+        0 0 35px rgba(185,20,20,.06),
+        inset 0 0 12px rgba(255,255,255,.05);
+      transition:
+        width .15s ease,
+        height .15s ease,
+        border-color .15s ease,
+        box-shadow .15s ease;
     }
 
-    .eye::before,
-    .eye::after {
-      content: "";
-      position: absolute;
-      border-radius: 50%;
+    .custom-cursor::before,
+    .custom-cursor::after{
+      content:"";
+      position:absolute;
+      inset:50%;
+      transform:translate(-50%, -50%);
+      border-radius:50%;
     }
 
-    .eye::before {
-      width: 180px;
-      height: 180px;
-      border: 1px solid rgba(255, 0, 0, 0.4);
+    .custom-cursor::before{
+      width:2px;
+      height:2px;
+      background:rgba(255,255,255,.85);
+      box-shadow:0 0 12px rgba(255,255,255,.6);
     }
 
-    .eye::after {
-      width: 70px;
-      height: 70px;
-      background: radial-gradient(circle, #ff3b3b, #720000 70%, #230000);
-      box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
+    .custom-cursor::after{
+      width:46px;
+      height:46px;
+      border:1px dashed rgba(185,20,20,.26);
+      animation:cursorHalo 3.5s linear infinite;
     }
 
-    .eye-label {
-      position: absolute;
-      bottom: -2.2rem;
-      text-transform: uppercase;
-      letter-spacing: 6px;
-      color: var(--red-soft);
-      font-size: 0.9rem;
-      text-align: center;
+    .custom-cursor.active{
+      width:40px;
+      height:40px;
+      border-color:rgba(224,51,51,.9);
+      box-shadow:
+        0 0 12px rgba(255,255,255,.16),
+        0 0 42px rgba(185,20,20,.15),
+        inset 0 0 14px rgba(255,255,255,.04);
     }
 
-    @keyframes pulse {
-      0%, 100% {
-        transform: scale(1);
-        box-shadow:
-          0 0 30px rgba(196, 0, 0, 0.15),
-          inset 0 0 40px rgba(196, 0, 0, 0.08);
+    @keyframes cursorHalo{
+      0%{ transform:translate(-50%, -50%) scale(.85); opacity:.6; }
+      50%{ opacity:.18; }
+      100%{ transform:translate(-50%, -50%) scale(1.22); opacity:.6; }
+    }
+
+    .particles-canvas{
+      position:fixed;
+      inset:0;
+      width:100%;
+      height:100%;
+      z-index:6;
+      pointer-events:none;
+      opacity:.95;
+    }
+
+    .intro{
+      position:fixed;
+      inset:0;
+      z-index:1000;
+      display:grid;
+      place-items:center;
+      background:
+        radial-gradient(circle at center, rgba(255,255,255,.02), transparent 22%),
+        linear-gradient(180deg, #070707 0%, #020202 100%);
+      transition:
+        opacity 1.2s ease,
+        visibility 1.2s ease;
+    }
+
+    .intro.hidden{
+      opacity:0;
+      visibility:hidden;
+    }
+
+    .intro-box{
+      width:min(760px, calc(100% - 2rem));
+      border:1px solid rgba(255,255,255,.08);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.012)),
+        rgba(7,7,7,.84);
+      box-shadow:
+        0 30px 80px rgba(0,0,0,.6),
+        inset 0 0 0 1px rgba(255,255,255,.015),
+        0 0 40px rgba(185,20,20,.08);
+      backdrop-filter:blur(12px);
+      padding:2rem;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .intro-box::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(120deg, transparent 0 35%, rgba(255,255,255,.04) 50%, transparent 65%);
+      transform:translateX(-120%);
+      animation:introSweep 3.5s linear infinite;
+    }
+
+    @keyframes introSweep{
+      to{ transform:translateX(120%); }
+    }
+
+    .intro-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      margin-bottom:1.5rem;
+      color:var(--paper-2);
+      text-transform:uppercase;
+      letter-spacing:.35em;
+      font-size:.72rem;
+    }
+
+    .intro-title{
+      font-family:"Cinzel", serif;
+      font-size:clamp(2rem, 6vw, 5rem);
+      line-height:.9;
+      text-transform:uppercase;
+      letter-spacing:.1em;
+      margin-bottom:.8rem;
+      color:#f0e6d4;
+      text-shadow:
+        0 3px 0 rgba(255,255,255,.06),
+        0 20px 45px rgba(0,0,0,.7),
+        0 0 25px rgba(185,20,20,.08);
+    }
+
+    .intro-text{
+      color:var(--muted);
+      line-height:1.8;
+      max-width:62ch;
+      margin-bottom:1.5rem;
+    }
+
+    .intro-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:1rem;
+      margin-top:1rem;
+    }
+
+    .btn{
+      appearance:none;
+      border:none;
+      outline:none;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:.7rem;
+      padding:1rem 1.35rem;
+      min-width:220px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)),
+        linear-gradient(180deg, rgba(185,20,20,.12), rgba(185,20,20,.03));
+      color:#f2e6d1;
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:
+        0 20px 40px rgba(0,0,0,.35),
+        inset 0 0 0 1px rgba(255,255,255,.015);
+      text-transform:uppercase;
+      letter-spacing:.24em;
+      font-size:.72rem;
+      cursor:none;
+      transition:transform .2s ease, border-color .2s ease, box-shadow .25s ease;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .btn:hover{
+      transform:translateY(-2px);
+      border-color:rgba(224,51,51,.24);
+      box-shadow:
+        0 26px 48px rgba(0,0,0,.45),
+        0 0 28px rgba(185,20,20,.08);
+    }
+
+    .btn::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent);
+      transform:translateX(-120%);
+      transition:transform .7s ease;
+    }
+
+    .btn:hover::after{
+      transform:translateX(120%);
+    }
+
+    .btn.primary{
+      border-color:rgba(185,20,20,.3);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.015)),
+        linear-gradient(180deg, rgba(185,20,20,.18), rgba(185,20,20,.06));
+    }
+
+    .status-led{
+      width:9px;
+      height:9px;
+      border-radius:50%;
+      background:var(--red-3);
+      box-shadow:0 0 14px rgba(224,51,51,.9);
+      animation:ledBlink 1.25s infinite;
+    }
+
+    @keyframes ledBlink{
+      0%,100%{ opacity:1; transform:scale(1); }
+      50%{ opacity:.3; transform:scale(.75); }
+    }
+
+    .shell{
+      position:relative;
+      z-index:30;
+      min-height:100vh;
+    }
+
+    .hero{
+      position:relative;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding:7vh 6vw;
+      isolation:isolate;
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 50% 38%, rgba(255,255,255,.03), transparent 14%),
+        radial-gradient(circle at 50% 30%, rgba(185,20,20,.08), transparent 24%),
+        linear-gradient(180deg, transparent, rgba(0,0,0,.45));
+      z-index:-2;
+    }
+
+    .hero::after{
+      content:"OMNIPRESENCIA";
+      position:absolute;
+      left:50%;
+      bottom:2vh;
+      transform:translateX(-50%);
+      font-size:clamp(3rem, 11vw, 12rem);
+      font-weight:900;
+      letter-spacing:.45em;
+      text-transform:uppercase;
+      white-space:nowrap;
+      color:rgba(255,255,255,.022);
+      pointer-events:none;
+      filter:blur(1.5px);
+    }
+
+    .hero-grid{
+      width:min(1380px, 100%);
+      display:grid;
+      grid-template-columns:1.1fr .95fr;
+      gap:3rem;
+      align-items:center;
+    }
+
+    .hero-copy{
+      position:relative;
+      padding-left:1rem;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:.8rem;
+      color:var(--paper-2);
+      text-transform:uppercase;
+      letter-spacing:.42em;
+      font-size:.72rem;
+      margin-bottom:1.4rem;
+      opacity:.95;
+    }
+
+    .eyebrow::before{
+      content:"";
+      width:68px;
+      height:1px;
+      background:linear-gradient(90deg, transparent, var(--red-3), transparent);
+      box-shadow:0 0 12px rgba(224,51,51,.4);
+    }
+
+    .hero-title{
+      font-family:"Cinzel", serif;
+      font-size:clamp(3.6rem, 8vw, 8rem);
+      line-height:.88;
+      text-transform:uppercase;
+      letter-spacing:.03em;
+      font-weight:900;
+      color:#f4ead8;
+      text-shadow:
+        0 3px 0 rgba(255,255,255,.06),
+        0 18px 32px rgba(0,0,0,.65),
+        0 0 28px rgba(185,20,20,.11);
+      max-width:10ch;
+    }
+
+    .hero-title .dim{
+      display:block;
+      color:#d6c7b0;
+    }
+
+    .glitch{
+      position:relative;
+      display:inline-block;
+    }
+
+    .glitch::before,
+    .glitch::after{
+      content:attr(data-text);
+      position:absolute;
+      left:0;
+      top:0;
+      width:100%;
+      pointer-events:none;
+      opacity:.28;
+    }
+
+    .glitch::before{
+      color:#ff5454;
+      transform:translate(2px, -1px);
+      clip-path:polygon(0 0,100% 0,100% 34%,0 34%);
+      animation:glA 2.8s infinite linear alternate-reverse;
+    }
+
+    .glitch::after{
+      color:#88a0ff;
+      transform:translate(-2px, 1px);
+      clip-path:polygon(0 68%,100% 68%,100% 100%,0 100%);
+      animation:glB 3.1s infinite linear alternate-reverse;
+    }
+
+    @keyframes glA{
+      0%{ transform:translate(1px,-1px); }
+      20%{ transform:translate(4px,1px); }
+      40%{ transform:translate(-2px,0); }
+      60%{ transform:translate(3px,-1px); }
+      80%{ transform:translate(-1px,1px); }
+      100%{ transform:translate(1px,0); }
+    }
+
+    @keyframes glB{
+      0%{ transform:translate(-2px,1px); }
+      20%{ transform:translate(-5px,-1px); }
+      40%{ transform:translate(2px,1px); }
+      60%{ transform:translate(-1px,-1px); }
+      80%{ transform:translate(2px,0); }
+      100%{ transform:translate(-2px,1px); }
+    }
+
+    .hero-text{
+      margin-top:1.4rem;
+      max-width:58ch;
+      color:var(--muted);
+      line-height:1.95;
+      font-size:clamp(1rem, 1.3vw, 1.08rem);
+      border-left:1px solid rgba(255,255,255,.08);
+      padding-left:1rem;
+      text-shadow:0 1px 0 rgba(0,0,0,.5);
+    }
+
+    .hero-tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:1rem;
+      margin-top:2rem;
+    }
+
+    .tag{
+      position:relative;
+      padding:.95rem 1.1rem;
+      border:1px solid rgba(255,255,255,.08);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.012)),
+        linear-gradient(180deg, rgba(185,20,20,.05), transparent);
+      color:#ddcebc;
+      text-transform:uppercase;
+      letter-spacing:.2em;
+      font-size:.68rem;
+      box-shadow:
+        0 12px 28px rgba(0,0,0,.24),
+        inset 0 0 0 1px rgba(255,255,255,.015);
+      backdrop-filter:blur(8px);
+      overflow:hidden;
+    }
+
+    .tag::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(90deg, transparent, rgba(255,255,255,.06), transparent);
+      transform:translateX(-120%);
+      animation:tagShine 4s linear infinite;
+    }
+
+    @keyframes tagShine{
+      to{ transform:translateX(120%); }
+    }
+
+    .hero-visual{
+      position:relative;
+      display:grid;
+      place-items:center;
+      min-height:720px;
+    }
+
+    .surveillance-core{
+      position:relative;
+      width:min(660px, 100%);
+      aspect-ratio:1/1;
+      display:grid;
+      place-items:center;
+      filter:drop-shadow(0 35px 70px rgba(0,0,0,.72));
+    }
+
+    .core-halo{
+      position:absolute;
+      width:90%;
+      aspect-ratio:1/1;
+      border-radius:50%;
+      background:
+        radial-gradient(circle, rgba(255,255,255,.03) 0 26%, transparent 27% 100%),
+        radial-gradient(circle, rgba(185,20,20,.18), transparent 58%);
+      box-shadow:
+        0 0 120px rgba(185,20,20,.12),
+        inset 0 0 90px rgba(255,255,255,.03);
+      animation:haloBeat 8s ease-in-out infinite;
+    }
+
+    @keyframes haloBeat{
+      0%,100%{ transform:scale(1); opacity:.78; }
+      50%{ transform:scale(1.08); opacity:1; }
+    }
+
+    .rings{
+      position:absolute;
+      inset:8%;
+      border-radius:50%;
+      border:1px solid rgba(255,255,255,.06);
+      box-shadow:
+        0 0 0 30px rgba(255,255,255,.018),
+        0 0 0 65px rgba(255,255,255,.012),
+        0 0 0 105px rgba(185,20,20,.02);
+      animation:spin 30s linear infinite;
+    }
+
+    .rings::before,
+    .rings::after{
+      content:"";
+      position:absolute;
+      border-radius:50%;
+      border:1px dashed rgba(255,255,255,.05);
+    }
+
+    .rings::before{
+      inset:10%;
+    }
+
+    .rings::after{
+      inset:22%;
+      animation:spinReverse 20s linear infinite;
+    }
+
+    .crosshair{
+      position:absolute;
+      width:86%;
+      aspect-ratio:1/1;
+      border-radius:50%;
+      background:
+        linear-gradient(rgba(255,255,255,.05), rgba(255,255,255,.05)) center/1px 100% no-repeat,
+        linear-gradient(90deg, rgba(255,255,255,.05), rgba(255,255,255,.05)) center/100% 1px no-repeat;
+      opacity:.7;
+      filter:drop-shadow(0 0 12px rgba(255,255,255,.05));
+    }
+
+    .eye-shell{
+      position:relative;
+      width:min(490px, 100%);
+      aspect-ratio:1/1;
+      display:grid;
+      place-items:center;
+    }
+
+    .eye-svg{
+      width:100%;
+      height:100%;
+      overflow:visible;
+      filter:
+        drop-shadow(0 0 18px rgba(255,255,255,.05))
+        drop-shadow(0 0 40px rgba(185,20,20,.09));
+    }
+
+    .eyelid{
+      transform-origin:center;
+      animation:blink 8.5s infinite ease-in-out;
+    }
+
+    @keyframes blink{
+      0%,43%,45%,100%{ transform:scaleY(1); }
+      44%{ transform:scaleY(.045); }
+      72%,74%{ transform:scaleY(1); }
+      73%{ transform:scaleY(.08); }
+    }
+
+    .pupil-group{
+      transition:transform .08s linear;
+      will-change:transform;
+    }
+
+    .status-panel{
+      position:absolute;
+      right:-1rem;
+      bottom:1.5rem;
+      width:min(320px, 55vw);
+      border:1px solid rgba(255,255,255,.08);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015)),
+        rgba(6,6,6,.74);
+      box-shadow:
+        0 24px 46px rgba(0,0,0,.45),
+        inset 0 0 0 1px rgba(255,255,255,.015);
+      backdrop-filter:blur(10px);
+      padding:1rem;
+      overflow:hidden;
+    }
+
+    .status-panel::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(120deg, transparent 0 40%, rgba(255,255,255,.05) 50%, transparent 60%);
+      transform:translateX(-120%);
+      animation:statusSweep 6s linear infinite;
+    }
+
+    @keyframes statusSweep{
+      to{ transform:translateX(120%); }
+    }
+
+    .status-head,
+    .clock-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      margin-bottom:.8rem;
+      text-transform:uppercase;
+      letter-spacing:.24em;
+      font-size:.66rem;
+      color:var(--paper-2);
+    }
+
+    .status-lines{
+      display:grid;
+      gap:.65rem;
+    }
+
+    .status-line{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      padding:.75rem .8rem;
+      border:1px solid rgba(255,255,255,.05);
+      background:rgba(255,255,255,.015);
+      color:#dbccb9;
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      font-size:.62rem;
+    }
+
+    .state-ok{
+      color:#d0b88f;
+    }
+
+    .state-hot{
+      color:#ff8f8f;
+    }
+
+    .metal-clock-wrap{
+      position:absolute;
+      left:-2rem;
+      top:8%;
+      width:min(340px, 42vw);
+      aspect-ratio:1/1;
+      display:grid;
+      place-items:center;
+      filter:drop-shadow(0 28px 50px rgba(0,0,0,.62));
+    }
+
+    .metal-clock{
+      position:relative;
+      width:100%;
+      aspect-ratio:1/1;
+      border-radius:50%;
+      background:
+        radial-gradient(circle at 35% 30%, rgba(255,255,255,.08), transparent 25%),
+        radial-gradient(circle at 70% 70%, rgba(0,0,0,.22), transparent 30%),
+        linear-gradient(145deg, #3d352f 0%, #1d1a17 28%, #100f0e 52%, #3a332c 100%);
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:
+        inset 0 0 0 8px rgba(255,255,255,.02),
+        inset 0 0 0 18px rgba(0,0,0,.22),
+        inset 0 0 0 20px rgba(255,255,255,.015),
+        0 30px 60px rgba(0,0,0,.55),
+        0 0 30px rgba(185,20,20,.06);
+    }
+
+    .metal-clock::before{
+      content:"";
+      position:absolute;
+      inset:8%;
+      border-radius:50%;
+      border:1px solid rgba(255,255,255,.06);
+      background:
+        radial-gradient(circle at center, rgba(255,255,255,.02), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.008));
+      box-shadow:inset 0 0 20px rgba(0,0,0,.3);
+    }
+
+    .clock-center{
+      position:absolute;
+      inset:50%;
+      transform:translate(-50%, -50%);
+      width:18px;
+      height:18px;
+      border-radius:50%;
+      background:
+        radial-gradient(circle at 35% 35%, #c8b28c, #7c6742 55%, #2f2415 100%);
+      box-shadow:
+        0 0 18px rgba(255,255,255,.08),
+        0 0 20px rgba(185,20,20,.1);
+      z-index:8;
+    }
+
+    .clock-center::after{
+      content:"";
+      position:absolute;
+      inset:50%;
+      transform:translate(-50%, -50%);
+      width:38px;
+      height:38px;
+      border-radius:50%;
+      border:1px dashed rgba(255,255,255,.08);
+      opacity:.6;
+    }
+
+    .clock-face{
+      position:absolute;
+      inset:0;
+      border-radius:50%;
+    }
+
+    .tick{
+      position:absolute;
+      left:50%;
+      top:50%;
+      width:2px;
+      height:46%;
+      transform-origin:center top;
+      pointer-events:none;
+    }
+
+    .tick::before{
+      content:"";
+      position:absolute;
+      left:50%;
+      top:5px;
+      transform:translateX(-50%);
+      width:2px;
+      height:18px;
+      border-radius:2px;
+      background:linear-gradient(180deg, rgba(255,255,255,.62), rgba(180,155,110,.22));
+      box-shadow:0 0 6px rgba(255,255,255,.08);
+    }
+
+    .tick.major::before{
+      width:3px;
+      height:24px;
+      background:linear-gradient(180deg, rgba(255,255,255,.9), rgba(201,165,101,.38));
+    }
+
+    .clock-numbers span{
+      position:absolute;
+      left:50%;
+      top:50%;
+      transform:translate(-50%, -50%);
+      color:#d6c6ae;
+      font-family:"Cinzel", serif;
+      font-weight:700;
+      font-size:1rem;
+      text-shadow:0 2px 6px rgba(0,0,0,.7);
+    }
+
+    .clock-hand{
+      position:absolute;
+      left:50%;
+      top:50%;
+      transform-origin:bottom center;
+      transform:translate(-50%, -100%) rotate(0deg);
+      border-radius:999px;
+      z-index:6;
+    }
+
+    .hour-hand{
+      width:7px;
+      height:82px;
+      background:
+        linear-gradient(180deg, #ead9b8 0%, #866c40 58%, #2a2114 100%);
+      box-shadow:0 0 10px rgba(255,255,255,.08);
+    }
+
+    .minute-hand{
+      width:5px;
+      height:116px;
+      background:
+        linear-gradient(180deg, #f0e2c7 0%, #9a7a48 58%, #261d11 100%);
+      box-shadow:0 0 12px rgba(255,255,255,.08);
+    }
+
+    .second-hand{
+      width:2px;
+      height:130px;
+      background:
+        linear-gradient(180deg, #ffb0b0 0%, #e03333 45%, #610707 100%);
+      box-shadow:0 0 16px rgba(224,51,51,.45);
+      z-index:7;
+    }
+
+    .clock-cap{
+      position:absolute;
+      bottom:9%;
+      left:50%;
+      transform:translateX(-50%);
+      width:74%;
+      border:1px solid rgba(255,255,255,.08);
+      padding:.75rem .9rem;
+      background:rgba(8,8,8,.66);
+      backdrop-filter:blur(8px);
+      text-align:center;
+      text-transform:uppercase;
+      letter-spacing:.22em;
+      font-size:.62rem;
+      color:#d5c4ae;
+      box-shadow:0 16px 28px rgba(0,0,0,.32);
+    }
+
+    .section{
+      position:relative;
+      padding:12vh 6vw;
+    }
+
+    .section-inner{
+      width:min(1320px, 100%);
+      margin:0 auto;
+    }
+
+    .section-title{
+      font-family:"Cinzel", serif;
+      font-size:clamp(2.2rem, 5vw, 4.8rem);
+      line-height:.95;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:#f0e6d2;
+      margin-bottom:1rem;
+      text-shadow:0 14px 30px rgba(0,0,0,.45);
+    }
+
+    .section-text{
+      color:var(--muted);
+      max-width:72ch;
+      line-height:1.95;
+      font-size:1rem;
+    }
+
+    .divider{
+      height:1px;
+      margin:2rem 0 4rem;
+      background:
+        linear-gradient(90deg, transparent, rgba(255,255,255,.08), rgba(224,51,51,.15), rgba(255,255,255,.08), transparent);
+      box-shadow:0 0 20px rgba(224,51,51,.08);
+    }
+
+    .poster-grid{
+      display:grid;
+      grid-template-columns:repeat(12, 1fr);
+      gap:1.2rem;
+    }
+
+    .panel{
+      position:relative;
+      overflow:hidden;
+      min-height:280px;
+      border:1px solid rgba(255,255,255,.06);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.012)),
+        radial-gradient(circle at top, rgba(185,20,20,.055), transparent 50%),
+        #0a0908;
+      box-shadow:
+        0 22px 48px rgba(0,0,0,.36),
+        inset 0 0 0 1px rgba(255,255,255,.015);
+      backdrop-filter:blur(10px);
+      transition:transform .45s ease, border-color .25s ease, box-shadow .35s ease;
+      transform-style:preserve-3d;
+      isolation:isolate;
+    }
+
+    .panel:hover{
+      transform:translateY(-8px) rotateX(2deg) rotateY(-2deg);
+      border-color:rgba(224,51,51,.22);
+      box-shadow:
+        0 32px 56px rgba(0,0,0,.48),
+        0 0 30px rgba(185,20,20,.08),
+        inset 0 0 0 1px rgba(255,255,255,.02);
+    }
+
+    .panel::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(130deg, transparent 0 35%, rgba(255,255,255,.03) 45%, transparent 55%),
+        linear-gradient(0deg, rgba(255,255,255,.02), transparent 50%);
+      transform:translateX(-100%);
+      transition:transform .9s ease;
+      z-index:-1;
+    }
+
+    .panel:hover::before{
+      transform:translateX(100%);
+    }
+
+    .panel::after{
+      content:"";
+      position:absolute;
+      inset:auto -20% -55% -20%;
+      height:70%;
+      background:radial-gradient(circle, rgba(185,20,20,.12), transparent 56%);
+      filter:blur(40px);
+      opacity:.58;
+      z-index:-1;
+    }
+
+    .panel-a{ grid-column:span 4; padding:2rem; }
+    .panel-b{ grid-column:span 4; padding:2rem; }
+    .panel-c{ grid-column:span 4; padding:2rem; }
+    .panel-d{ grid-column:span 6; padding:2rem; min-height:360px; }
+    .panel-e{ grid-column:span 6; padding:2rem; min-height:360px; }
+
+    .stamp{
+      display:inline-block;
+      margin-bottom:1rem;
+      padding:.48rem .8rem;
+      border:1px solid rgba(224,51,51,.34);
+      background:rgba(127,11,11,.09);
+      color:#e6cccc;
+      text-transform:uppercase;
+      letter-spacing:.32em;
+      font-size:.7rem;
+      transform:rotate(-3deg);
+      box-shadow:0 0 18px rgba(185,20,20,.06);
+    }
+
+    .panel h3{
+      font-family:"Cinzel", serif;
+      font-size:clamp(1.5rem, 3vw, 3rem);
+      line-height:1;
+      letter-spacing:.05em;
+      text-transform:uppercase;
+      margin-bottom:1rem;
+      color:#f1e5d0;
+      text-shadow:0 12px 22px rgba(0,0,0,.42);
+    }
+
+    .panel p{
+      color:var(--muted);
+      line-height:1.9;
+      max-width:56ch;
+      font-size:.98rem;
+    }
+
+    .big-word{
+      position:absolute;
+      right:-.2rem;
+      bottom:-.15rem;
+      font-weight:900;
+      font-size:clamp(3rem, 8vw, 8rem);
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      color:rgba(255,255,255,.03);
+      pointer-events:none;
+      user-select:none;
+    }
+
+    .quote-wall{
+      position:relative;
+      display:grid;
+      gap:1rem;
+      align-content:center;
+      min-height:100%;
+    }
+
+    .quote-line{
+      position:relative;
+      font-family:"Cinzel", serif;
+      text-transform:uppercase;
+      font-size:clamp(1rem, 1.9vw, 2rem);
+      letter-spacing:.26em;
+      color:#d8c8b5;
+      padding:.8rem 0;
+      border-bottom:1px solid rgba(255,255,255,.05);
+    }
+
+    .quote-line::before{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-1px;
+      width:0;
+      height:1px;
+      background:linear-gradient(90deg, var(--red-3), transparent);
+      box-shadow:0 0 12px rgba(224,51,51,.4);
+      animation:growLine 6s ease-in-out infinite;
+    }
+
+    .quote-line:nth-child(2)::before{ animation-delay:1.1s; }
+    .quote-line:nth-child(3)::before{ animation-delay:2.1s; }
+
+    @keyframes growLine{
+      0%,100%{ width:0; opacity:.2; }
+      50%{ width:80%; opacity:1; }
+    }
+
+    .monitor{
+      position:relative;
+      height:100%;
+      border:1px solid rgba(255,255,255,.07);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01)),
+        linear-gradient(180deg, rgba(110,143,126,.08), rgba(110,143,126,.02)),
+        #050807;
+      overflow:hidden;
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.015),
+        0 20px 40px rgba(0,0,0,.35);
+    }
+
+    .monitor::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          rgba(182,224,196,.04) 0,
+          rgba(182,224,196,.04) 1px,
+          transparent 2px,
+          transparent 4px
+        );
+      opacity:.4;
+    }
+
+    .monitor-grid{
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(rgba(182,224,196,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(182,224,196,.03) 1px, transparent 1px);
+      background-size:30px 30px;
+      opacity:.3;
+    }
+
+    .monitor-content{
+      position:relative;
+      z-index:2;
+      height:100%;
+      padding:1.5rem;
+      display:grid;
+      grid-template-rows:auto 1fr auto;
+      gap:1rem;
+      color:#d2e6d8;
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      font-size:.66rem;
+    }
+
+    .monitor-head{
+      display:flex;
+      justify-content:space-between;
+      gap:1rem;
+      color:#c7d9cc;
+    }
+
+    .monitor-map{
+      position:relative;
+      border:1px solid rgba(182,224,196,.12);
+      min-height:180px;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at 20% 40%, rgba(182,224,196,.08), transparent 20%),
+        radial-gradient(circle at 60% 60%, rgba(182,224,196,.05), transparent 25%),
+        linear-gradient(180deg, rgba(182,224,196,.03), transparent);
+    }
+
+    .monitor-map .blip{
+      position:absolute;
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:#d8ffee;
+      box-shadow:0 0 14px rgba(216,255,238,.8);
+      animation:blipPulse 2.2s infinite;
+    }
+
+    .monitor-map .blip::after{
+      content:"";
+      position:absolute;
+      inset:50%;
+      transform:translate(-50%, -50%);
+      width:34px;
+      height:34px;
+      border-radius:50%;
+      border:1px solid rgba(216,255,238,.18);
+      animation:ringBlip 2.2s infinite;
+    }
+
+    @keyframes blipPulse{
+      0%,100%{ opacity:1; }
+      50%{ opacity:.45; }
+    }
+
+    @keyframes ringBlip{
+      0%{ transform:translate(-50%, -50%) scale(.4); opacity:.7; }
+      100%{ transform:translate(-50%, -50%) scale(1.4); opacity:0; }
+    }
+
+    .monitor-footer{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:.8rem;
+    }
+
+    .mini-stat{
+      padding:.8rem;
+      border:1px solid rgba(182,224,196,.1);
+      background:rgba(182,224,196,.03);
+      min-height:74px;
+      display:grid;
+      align-content:center;
+      gap:.35rem;
+    }
+
+    .mini-stat strong{
+      font-size:1rem;
+      color:#f0fff7;
+      letter-spacing:.08em;
+    }
+
+    .warning-band{
+      position:relative;
+      padding:1rem 0;
+      overflow:hidden;
+      border-top:1px solid rgba(255,255,255,.05);
+      border-bottom:1px solid rgba(255,255,255,.05);
+      margin-top:2rem;
+      margin-bottom:2rem;
+    }
+
+    .warning-track{
+      display:flex;
+      gap:2.5rem;
+      white-space:nowrap;
+      min-width:max-content;
+      animation:marquee 18s linear infinite;
+      color:#e0c8c8;
+      text-transform:uppercase;
+      letter-spacing:.34em;
+      font-size:.74rem;
+    }
+
+    @keyframes marquee{
+      to{ transform:translateX(-50%); }
+    }
+
+    .reveal{
+      opacity:0;
+      transform:translateY(38px);
+      transition:opacity .9s ease, transform .9s ease;
+    }
+
+    .reveal.visible{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    .corner-marks{
+      position:absolute;
+      inset:16px;
+      pointer-events:none;
+      z-index:1;
+    }
+
+    .corner-marks span{
+      position:absolute;
+      width:42px;
+      height:42px;
+      border-style:solid;
+      border-color:rgba(255,255,255,.12);
+    }
+
+    .corner-marks span:nth-child(1){ top:0; left:0; border-width:1px 0 0 1px; }
+    .corner-marks span:nth-child(2){ top:0; right:0; border-width:1px 1px 0 0; }
+    .corner-marks span:nth-child(3){ bottom:0; left:0; border-width:0 0 1px 1px; }
+    .corner-marks span:nth-child(4){ bottom:0; right:0; border-width:0 1px 1px 0; }
+
+    .footer{
+      position:relative;
+      padding:12vh 6vw 8vh;
+      text-align:center;
+      overflow:hidden;
+    }
+
+    .footer::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(185,20,20,.09), transparent 30%),
+        linear-gradient(180deg, rgba(255,255,255,.02), transparent 50%);
+    }
+
+    .footer-mark{
+      position:relative;
+      font-family:"Cinzel", serif;
+      font-size:clamp(3rem, 11vw, 10rem);
+      text-transform:uppercase;
+      letter-spacing:.5em;
+      color:rgba(255,255,255,.03);
+      padding-left:.5em;
+      user-select:none;
+    }
+
+    .footer p{
+      position:relative;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.24em;
+      font-size:.76rem;
+      margin-top:.8rem;
+    }
+
+    @keyframes spin{
+      to{ transform:rotate(360deg); }
+    }
+
+    @keyframes spinReverse{
+      to{ transform:rotate(-360deg); }
+    }
+
+    @media (max-width: 1180px){
+      .hero-grid{
+        grid-template-columns:1fr;
+        gap:3rem;
       }
-      50% {
-        transform: scale(1.04);
-        box-shadow:
-          0 0 45px rgba(255, 0, 0, 0.25),
-          inset 0 0 55px rgba(255, 0, 0, 0.12);
+
+      .hero-copy{
+        order:2;
+      }
+
+      .hero-visual{
+        order:1;
+        min-height:620px;
+      }
+
+      .hero-title{
+        max-width:100%;
+      }
+
+      .metal-clock-wrap{
+        left:0;
+        top:auto;
+        bottom:-1rem;
+        width:min(280px, 48vw);
+      }
+
+      .status-panel{
+        right:0;
+      }
+
+      .panel-a,.panel-b,.panel-c,.panel-d,.panel-e{
+        grid-column:span 12;
       }
     }
 
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--line);
-    }
-
-    .nav-container {
-      max-width: 1200px;
-      margin: auto;
-      padding: 1rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .logo {
-      font-weight: 900;
-      letter-spacing: 2px;
-      color: var(--red-soft);
-      text-transform: uppercase;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .nav-links a {
-      color: #ddd;
-      text-decoration: none;
-      font-size: 0.95rem;
-      position: relative;
-      padding-bottom: 0.2rem;
-    }
-
-    .nav-links a::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: -2px;
-      width: 0;
-      height: 2px;
-      background: var(--red-soft);
-      transition: width 0.3s ease;
-    }
-
-    .nav-links a:hover::after {
-      width: 100%;
-    }
-
-    main {
-      max-width: 1200px;
-      margin: auto;
-      padding: 3rem 1.5rem 5rem;
-    }
-
-    section {
-      margin-bottom: 4rem;
-      padding: 2rem;
-      background: linear-gradient(180deg, rgba(20, 20, 20, 0.8), rgba(10, 10, 10, 0.95));
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-    }
-
-    section::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.03), transparent);
-      transform: translateX(-100%);
-      transition: transform 1s ease;
-    }
-
-    section:hover::before {
-      transform: translateX(100%);
-    }
-
-    h2 {
-      font-size: 2rem;
-      color: var(--red-soft);
-      margin-bottom: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .section-intro {
-      color: var(--muted);
-      margin-bottom: 1.5rem;
-      max-width: 850px;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
-    }
-
-    .card {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 0, 0, 0.12);
-      padding: 1.4rem;
-      transition: 0.3s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(255, 0, 0, 0.4);
-      box-shadow: 0 0 20px rgba(255, 0, 0, 0.12);
-    }
-
-    .card h3 {
-      color: #fff;
-      margin-bottom: 0.7rem;
-      font-size: 1.15rem;
-    }
-
-    .card p {
-      color: var(--muted);
-    }
-
-    .quote-box {
-      border-left: 4px solid var(--red);
-      padding: 1.2rem 1.2rem 1.2rem 1.5rem;
-      background: rgba(255, 0, 0, 0.04);
-      font-size: 1.1rem;
-      color: #f0f0f0;
-      margin-top: 1.5rem;
-    }
-
-    .timeline {
-      position: relative;
-      margin-top: 2rem;
-      padding-left: 1.5rem;
-      border-left: 2px solid rgba(255, 0, 0, 0.25);
-    }
-
-    .timeline-item {
-      margin-bottom: 1.8rem;
-      position: relative;
-      padding-left: 1rem;
-    }
-
-    .timeline-item::before {
-      content: "";
-      position: absolute;
-      left: -1.95rem;
-      top: 0.35rem;
-      width: 12px;
-      height: 12px;
-      background: var(--red-soft);
-      border-radius: 50%;
-      box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-    }
-
-    .timeline-item h4 {
-      color: #fff;
-      margin-bottom: 0.35rem;
-    }
-
-    .timeline-item p {
-      color: var(--muted);
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-
-    .stat {
-      text-align: center;
-      padding: 1.5rem 1rem;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 0, 0, 0.15);
-    }
-
-    .stat span {
-      display: block;
-      font-size: 2rem;
-      color: var(--red-soft);
-      font-weight: 900;
-      margin-bottom: 0.4rem;
-    }
-
-    .stat small {
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .warning-panel {
-      margin-top: 2rem;
-      padding: 1.4rem;
-      border: 1px solid rgba(255, 0, 0, 0.25);
-      background: rgba(255, 0, 0, 0.05);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .warning-panel strong {
-      color: var(--red-soft);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .terminal {
-      background: #020202;
-      border: 1px solid rgba(255, 0, 0, 0.2);
-      padding: 1rem;
-      margin-top: 1.5rem;
-      font-family: "Courier New", monospace;
-      color: #ff6363;
-      min-height: 90px;
-      white-space: pre-line;
-      box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.08);
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem 1rem 3rem;
-      border-top: 1px solid var(--line);
-      color: var(--muted);
-      background: #030303;
-    }
-
-    footer p {
-      margin-bottom: 0.5rem;
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(25px);
-      transition: 0.8s ease;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    @media (max-width: 920px) {
-      .hero {
-        grid-template-columns: 1fr;
-        text-align: center;
+    @media (max-width: 780px){
+      html, body{
+        cursor:auto;
       }
 
-      .hero-text p {
-        margin-inline: auto;
+      .custom-cursor{
+        display:none;
       }
 
-      .hero-buttons {
-        justify-content: center;
+      .hero{
+        padding-top:5rem;
       }
 
-      .grid-2,
-      .stats {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    @media (max-width: 640px) {
-      h1 {
-        font-size: 3rem;
+      .hero-visual{
+        min-height:520px;
       }
 
-      .nav-container {
-        flex-direction: column;
+      .status-panel{
+        width:min(320px, 75vw);
+        bottom:0;
       }
 
-      .grid-2,
-      .stats {
-        grid-template-columns: 1fr;
+      .metal-clock-wrap{
+        width:min(230px, 55vw);
+        bottom:-.5rem;
       }
 
-      section {
-        padding: 1.4rem;
+      .btn{
+        width:100%;
+        min-width:0;
+        cursor:pointer;
       }
 
-      .eye {
-        width: 240px;
-        height: 240px;
-      }
-
-      .eye::before {
-        width: 130px;
-        height: 130px;
-      }
-
-      .eye::after {
-        width: 50px;
-        height: 50px;
+      .warning-track{
+        font-size:.66rem;
+        letter-spacing:.22em;
       }
     }
   </style>
 </head>
 <body>
-  <div class="particles" id="particles"></div>
+  <div class="overlay-noise"></div>
+  <div class="overlay-grain"></div>
+  <div class="overlay-grid"></div>
+  <div class="overlay-beams"></div>
+  <div class="overlay-fog"></div>
+  <div class="overlay-vhs"></div>
+  <div class="overlay-bloom"></div>
 
-  <header id="inicio">
-    <div class="hero">
-      <div class="hero-text">
-        <div class="eyebrow">Distopía · Vigilancia · Control</div>
-        <h1>1984 <span>George Orwell</span></h1>
-        <p>
-          Una inmersión en el universo oscuro de <strong>George Orwell</strong>, donde la libertad,
-          la verdad y la identidad son aplastadas por un sistema totalitario. Esta página explora
-          la historia de <em>Winston Smith</em>, el poder del Gran Hermano y los temas que convierten
-          a <strong>1984</strong> en una de las novelas más impactantes de todos los tiempos.
+  <canvas class="particles-canvas" id="particles"></canvas>
+  <div class="custom-cursor" id="cursor"></div>
+
+  <section class="intro" id="intro">
+    <div class="intro-box">
+      <div class="intro-head">
+        <span>Acceso restringido</span>
+        <span>Protocolo visual / 1984</span>
+      </div>
+
+      <h1 class="intro-title">Sistema<br>de vigilancia</h1>
+
+      <p class="intro-text">
+        Esta versión activa una atmósfera más densa: reloj metálico vivo, partículas suspendidas,
+        vigilancia persistente y audio ambiental sintético generado en tiempo real para provocar
+        una sensación fría, industrial y ceremonial.
+      </p>
+
+      <div class="intro-actions">
+        <button class="btn primary" id="enterWithAudio">
+          <span class="status-led"></span>
+          Entrar con audio
+        </button>
+
+        <button class="btn" id="enterSilent">
+          <span>Entrar sin audio</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <main class="shell">
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-copy reveal">
+          <div class="eyebrow">distopía / archivo / vigilancia total</div>
+
+          <h1 class="hero-title">
+            <span class="glitch" data-text="1984">1984</span>
+            <span class="dim">te está mirando</span>
+          </h1>
+
+          <p class="hero-text">
+            Una experiencia visual más severa, más metálica y más viva. Oscuridad envejecida, bruma
+            industrial, rojo de alarma, mecanismos ceremoniales, rastreo ocular, ruido de monitor,
+            partículas suspendidas y una maquinaria silenciosa que convierte la página en presencia.
+          </p>
+
+          <div class="hero-tags">
+            <div class="tag">CRT agresivo</div>
+            <div class="tag">reloj metálico vivo</div>
+            <div class="tag">audio procedural</div>
+            <div class="tag">atmósfera opresiva</div>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal">
+          <div class="surveillance-core">
+            <div class="core-halo"></div>
+            <div class="rings"></div>
+            <div class="crosshair"></div>
+
+            <div class="metal-clock-wrap">
+              <div class="metal-clock" id="metalClock">
+                <div class="clock-face" id="clockFace"></div>
+                <div class="clock-numbers" id="clockNumbers"></div>
+
+                <div class="clock-hand hour-hand" id="hourHand"></div>
+                <div class="clock-hand minute-hand" id="minuteHand"></div>
+                <div class="clock-hand second-hand" id="secondHand"></div>
+
+                <div class="clock-center"></div>
+                <div class="clock-cap" id="clockCaption">hora oficial del sistema</div>
+              </div>
+            </div>
+
+            <div class="eye-shell">
+              <svg class="eye-svg" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                  <radialGradient id="irisGrad" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#f0debf"/>
+                    <stop offset="20%" stop-color="#a37c45"/>
+                    <stop offset="54%" stop-color="#54361a"/>
+                    <stop offset="100%" stop-color="#120c08"/>
+                  </radialGradient>
+
+                  <radialGradient id="pupilGrad" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#000000"/>
+                    <stop offset="72%" stop-color="#060606"/>
+                    <stop offset="100%" stop-color="#260909"/>
+                  </radialGradient>
+
+                  <filter id="eyeGlow">
+                    <feGaussianBlur stdDeviation="5" result="blur"/>
+                    <feMerge>
+                      <feMergeNode in="blur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
+
+                <g class="eyelid">
+                  <ellipse cx="300" cy="300" rx="212" ry="125" fill="#0c0a09" stroke="rgba(255,255,255,.08)" stroke-width="3"/>
+                  <path d="M90 300C136 186 224 130 300 130C376 130 464 186 510 300C464 414 376 470 300 470C224 470 136 414 90 300Z"
+                        fill="#120f0d"
+                        stroke="rgba(255,255,255,.14)"
+                        stroke-width="4"
+                        filter="url(#eyeGlow)"/>
+                  <path d="M118 300C162 208 233 163 300 163C367 163 438 208 482 300C438 392 367 437 300 437C233 437 162 392 118 300Z"
+                        fill="#e7d5b7"
+                        opacity=".95"/>
+                </g>
+
+                <g class="pupil-group" id="pupilGroup">
+                  <circle cx="300" cy="300" r="94" fill="url(#irisGrad)" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
+                  <circle cx="300" cy="300" r="58" fill="url(#pupilGrad)"/>
+                  <circle cx="300" cy="300" r="13" fill="#000"/>
+                  <circle cx="272" cy="272" r="24" fill="rgba(255,255,255,.28)"/>
+                  <circle cx="333" cy="334" r="5" fill="rgba(224,51,51,.78)"/>
+                </g>
+
+                <ellipse cx="300" cy="300" rx="212" ry="125" fill="none" stroke="rgba(224,51,51,.16)" stroke-width="1.4"/>
+                <ellipse cx="300" cy="300" rx="236" ry="145" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+              </svg>
+            </div>
+
+            <div class="status-panel">
+              <div class="status-head">
+                <span>Estado del sistema</span>
+                <span id="liveTime">--:--:--</span>
+              </div>
+
+              <div class="status-lines">
+                <div class="status-line">
+                  <span>presencia</span>
+                  <span class="state-hot">detectada</span>
+                </div>
+                <div class="status-line">
+                  <span>seguimiento ocular</span>
+                  <span class="state-ok">activo</span>
+                </div>
+                <div class="status-line">
+                  <span>ruido ambiental</span>
+                  <span id="audioStateLabel">inactivo</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <div class="section-inner">
+        <div class="warning-band">
+          <div class="warning-track">
+            <span>presencia detectada</span>
+            <span>vigilancia constante</span>
+            <span>silencio impuesto</span>
+            <span>registro permanente</span>
+            <span>protocolo de observación</span>
+            <span>presencia detectada</span>
+            <span>vigilancia constante</span>
+            <span>silencio impuesto</span>
+            <span>registro permanente</span>
+            <span>protocolo de observación</span>
+          </div>
+        </div>
+
+        <h2 class="section-title">Brutalismo ceremonial</h2>
+        <p class="section-text">
+          La composición deja de sentirse como una simple landing page y empieza a parecerse a una
+          sala de control ritualizada. El metal, la penumbra, las marcas de monitor, las capas de polvo
+          suspendido y la iluminación roja transforman la interfaz en una máquina escénica de vigilancia.
         </p>
 
-        <div class="hero-buttons">
-          <a href="#historia" class="btn">Explorar historia</a>
-          <a href="#temas" class="btn secondary">Ver temáticas</a>
-        </div>
-      </div>
+        <div class="divider"></div>
 
-      <div class="hero-visual">
-        <div class="eye">
-          <div class="eye-label">Big Brother is watching you</div>
-        </div>
-      </div>
-    </div>
-  </header>
+        <div class="poster-grid">
+          <article class="panel panel-a reveal">
+            <div class="corner-marks"><span></span><span></span><span></span><span></span></div>
+            <div class="stamp">Materia</div>
+            <h3>Metal y ceniza</h3>
+            <p>
+              Las superficies combinan brillo agotado, acero envejecido, humo tenue y reflejos mínimos.
+              Todo parece pesado, oficial y peligrosamente hermoso.
+            </p>
+            <div class="big-word">METAL</div>
+          </article>
 
-  <nav>
-    <div class="nav-container">
-      <div class="logo">1984</div>
-      <div class="nav-links">
-        <a href="#historia">Historia</a>
-        <a href="#personajes">Personajes</a>
-        <a href="#temas">Temas</a>
-        <a href="#orwell">George Orwell</a>
-        <a href="#impacto">Impacto</a>
-      </div>
-    </div>
-  </nav>
+          <article class="panel panel-b reveal">
+            <div class="corner-marks"><span></span><span></span><span></span><span></span></div>
+            <div class="stamp">Presión</div>
+            <h3>Rojo de alarma</h3>
+            <p>
+              El rojo no invade: pulsa. Se comporta como una advertencia respirando dentro del negro,
+              como si la interfaz tuviera temperatura.
+            </p>
+            <div class="big-word">ALARMA</div>
+          </article>
 
-  <main>
-    <section id="historia" class="reveal">
-      <h2>La historia</h2>
-      <p class="section-intro">
-        <strong>1984</strong> nos sitúa en Oceanía, un estado totalitario donde el Partido controla
-        cada aspecto de la vida. Winston Smith, un trabajador del Ministerio de la Verdad, comienza
-        a cuestionar el sistema, a dudar de la propaganda y a buscar algo prohibido: la verdad.
-      </p>
+          <article class="panel panel-c reveal">
+            <div class="corner-marks"><span></span><span></span><span></span><span></span></div>
+            <div class="stamp">Rastro</div>
+            <h3>Polvo vivo</h3>
+            <p>
+              Las partículas suspendidas convierten el espacio en aire tangible. Ya no es solo fondo:
+              ahora hay atmósfera, volumen y tiempo flotando frente a ti.
+            </p>
+            <div class="big-word">POLVO</div>
+          </article>
 
-      <div class="grid-2">
-        <div class="card">
-          <h3>Un mundo dominado por el miedo</h3>
-          <p>
-            La sociedad vive bajo vigilancia constante. Las telepantallas observan, los pensamientos
-            se castigan y la historia se reescribe para servir al poder. Nada pertenece al individuo:
-            ni la memoria, ni el lenguaje, ni siquiera la intimidad.
-          </p>
-        </div>
+          <article class="panel panel-d reveal">
+            <div class="corner-marks"><span></span><span></span><span></span><span></span></div>
+            <div class="quote-wall">
+              <div class="stamp">Consigna</div>
+              <div class="quote-line">No navegas. Entras.</div>
+              <div class="quote-line">No miras. Eres mirado.</div>
+              <div class="quote-line">No haces ruido. Quedas registrado.</div>
+            </div>
+          </article>
 
-        <div class="card">
-          <h3>La rebelión de Winston</h3>
-          <p>
-            Winston inicia una lucha silenciosa contra el sistema. Su deseo de recordar, amar y pensar
-            libremente lo lleva a desafiar al Partido, aunque en un mundo así la rebeldía tiene un precio brutal.
-          </p>
-        </div>
-      </div>
+          <article class="panel panel-e reveal">
+            <div class="corner-marks"><span></span><span></span><span></span><span></span></div>
+            <div class="monitor">
+              <div class="monitor-grid"></div>
 
-      <div class="timeline">
-        <div class="timeline-item">
-          <h4>1. La rutina en el Ministerio de la Verdad</h4>
-          <p>Winston altera documentos para que el pasado siempre coincida con la versión oficial del Partido.</p>
-        </div>
-        <div class="timeline-item">
-          <h4>2. El inicio de la duda</h4>
-          <p>Empieza a escribir un diario y a cuestionar el control absoluto que define su mundo.</p>
-        </div>
-        <div class="timeline-item">
-          <h4>3. El vínculo con Julia</h4>
-          <p>Encuentra en el amor y la intimidad una forma de resistencia frente a la deshumanización.</p>
-        </div>
-        <div class="timeline-item">
-          <h4>4. La ilusión de la rebelión</h4>
-          <p>Winston cree acercarse a una oposición real, pero el sistema siempre parece ir un paso por delante.</p>
-        </div>
-        <div class="timeline-item">
-          <h4>5. La caída</h4>
-          <p>La maquinaria del poder demuestra que no busca solo obediencia: busca dominar el alma.</p>
-        </div>
-      </div>
+              <div class="monitor-content">
+                <div class="monitor-head">
+                  <span>Mapa de vigilancia</span>
+                  <span>canal / verde fósforo</span>
+                </div>
 
-      <div class="quote-box">
-        En <strong>1984</strong>, el horror no nace solamente de la violencia, sino del control de la verdad,
-        del lenguaje y de la capacidad humana de pensar por sí misma.
-      </div>
-    </section>
+                <div class="monitor-map">
+                  <div class="blip" style="left:18%; top:26%;"></div>
+                  <div class="blip" style="left:62%; top:40%; animation-delay:.6s;"></div>
+                  <div class="blip" style="left:42%; top:72%; animation-delay:1.1s;"></div>
+                </div>
 
-    <section id="personajes" class="reveal">
-      <h2>Personajes principales</h2>
-      <p class="section-intro">
-        La novela construye su fuerza a través de personajes que representan resistencia, manipulación,
-        deseo, miedo y sometimiento.
-      </p>
-
-      <div class="grid-2">
-        <div class="card">
-          <h3>Winston Smith</h3>
-          <p>
-            El protagonista. Un hombre común atrapado en una maquinaria opresiva. Su conflicto interno
-            es el corazón de la novela: desea la verdad en un mundo fabricado por la mentira.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>Julia</h3>
-          <p>
-            Rebelde a su manera, desafía al sistema desde el cuerpo, el deseo y la vida privada.
-            Representa una forma más instintiva y emocional de resistencia.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>O'Brien</h3>
-          <p>
-            Inteligente, ambiguo y perturbador. Es una figura clave del poder totalitario y del modo
-            en que el Partido destruye cualquier esperanza de libertad verdadera.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>El Gran Hermano</h3>
-          <p>
-            Más que una persona, es un símbolo. Encierra el rostro del control absoluto, la propaganda,
-            la adoración forzada y la presencia constante del poder.
-          </p>
+                <div class="monitor-footer">
+                  <div class="mini-stat">
+                    <span>Sector</span>
+                    <strong>04-B</strong>
+                  </div>
+                  <div class="mini-stat">
+                    <span>Lectura</span>
+                    <strong>ACTIVA</strong>
+                  </div>
+                  <div class="mini-stat">
+                    <span>Ruido</span>
+                    <strong>ESTABLE</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
         </div>
       </div>
     </section>
 
-    <section id="temas" class="reveal">
-      <h2>Temáticas de George Orwell en 1984</h2>
-      <p class="section-intro">
-        George Orwell construyó una obra que va mucho más allá de una simple historia futurista. 
-        <strong>1984</strong> es una crítica profunda a los sistemas totalitarios, a la manipulación política
-        y a la fragilidad de la libertad humana.
-      </p>
-
-      <div class="grid-2">
-        <div class="card">
-          <h3>Vigilancia total</h3>
-          <p>
-            Nada escapa al ojo del poder. La vigilancia constante destruye la intimidad y convierte
-            a cada ciudadano en prisionero de su propia conducta.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>Manipulación de la verdad</h3>
-          <p>
-            El Partido controla el pasado para controlar el presente. Si la historia puede alterarse,
-            entonces también puede alterarse la realidad.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>El lenguaje como arma</h3>
-          <p>
-            La neolengua reduce palabras y, con ello, reduce ideas. Orwell muestra cómo limitar el lenguaje
-            es también limitar el pensamiento crítico.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>Deshumanización</h3>
-          <p>
-            El totalitarismo no solo gobierna cuerpos; busca romper vínculos, destruir la identidad y
-            anular cualquier emoción que compita con la obediencia al poder.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>Propaganda y miedo</h3>
-          <p>
-            El régimen se sostiene mediante eslóganes, enemigos permanentes y una atmósfera constante de amenaza.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>La imposibilidad de la libertad</h3>
-          <p>
-            La novela plantea una pregunta inquietante: ¿qué ocurre cuando un sistema logra dominar no solo la
-            conducta, sino también la mente y la percepción de la realidad?
-          </p>
-        </div>
-      </div>
-
-      <div class="warning-panel">
-        <div>
-          <strong>Advertencia del Partido</strong><br>
-          Pensar diferente es el primer acto de rebeldía.
-        </div>
-        <button class="btn" id="truthBtn">Revelar mensaje</button>
-      </div>
-
-      <div class="terminal" id="terminal">
-        > Sistema listo...
-      </div>
-    </section>
-
-    <section id="orwell" class="reveal">
-      <h2>George Orwell y su visión</h2>
-      <p class="section-intro">
-        George Orwell fue un escritor profundamente preocupado por el abuso del poder, la censura, la propaganda
-        y las deformaciones políticas de la verdad. En <strong>1984</strong>, su visión toma forma en una distopía
-        donde el control ideológico es tan fuerte que invade incluso los pensamientos más íntimos.
-      </p>
-
-      <div class="grid-2">
-        <div class="card">
-          <h3>Crítica al totalitarismo</h3>
-          <p>
-            Orwell imaginó una sociedad extrema para advertir sobre tendencias reales: gobiernos autoritarios,
-            culto al líder, manipulación masiva y eliminación del pensamiento independiente.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>Literatura como advertencia</h3>
-          <p>
-            La novela funciona como una alarma cultural. No describe solo un futuro posible, sino mecanismos
-            de poder que pueden aparecer en cualquier época cuando la libertad deja de defenderse.
-          </p>
-        </div>
-      </div>
-
-      <div class="stats">
-        <div class="stat">
-          <span>1</span>
-          <small>Gran Hermano</small>
-        </div>
-        <div class="stat">
-          <span>3</span>
-          <small>Superestados</small>
-        </div>
-        <div class="stat">
-          <span>∞</span>
-          <small>Vigilancia</small>
-        </div>
-        <div class="stat">
-          <span>0</span>
-          <small>Privacidad</small>
-        </div>
-      </div>
-    </section>
-
-    <section id="impacto" class="reveal">
-      <h2>Impacto de la obra</h2>
-      <p class="section-intro">
-        <strong>1984</strong> permanece vigente porque muchas de sus ideas siguen resonando en debates actuales:
-        vigilancia tecnológica, manipulación informativa, polarización, censura y control narrativo.
-      </p>
-
-      <div class="grid-2">
-        <div class="card">
-          <h3>Una novela atemporal</h3>
-          <p>
-            La fuerza de la obra está en su capacidad para seguir incomodando. Su mundo parece lejano,
-            pero sus advertencias se sienten demasiado cercanas.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>Legado cultural</h3>
-          <p>
-            Expresiones como “Gran Hermano”, “doblepensar” o “Ministerio de la Verdad” se han convertido
-            en referencias universales para hablar del abuso político y mediático.
-          </p>
-        </div>
-      </div>
-
-      <div class="quote-box">
-        <strong>1984</strong> no solo cuenta una historia: obliga al lector a preguntarse cuánto vale la verdad
-        cuando el poder decide fabricarla.
-      </div>
-    </section>
+    <footer class="footer reveal">
+      <div class="footer-mark">1984</div>
+      <p>V2 / reloj metálico / partículas / audio ambiental / vigilancia total</p>
+    </footer>
   </main>
 
-  <footer>
-    <p>Diseño web inspirado en la atmósfera de <strong>1984</strong> de George Orwell.</p>
-    <p>Colores negro y rojo · Estética distópica · Narrativa centrada en vigilancia, poder y verdad.</p>
-  </footer>
-
   <script>
-    // Partículas rojas en el fondo
-    const particlesContainer = document.getElementById("particles");
+    const cursor = document.getElementById("cursor");
+    const pupilGroup = document.getElementById("pupilGroup");
+    const intro = document.getElementById("intro");
+    const enterWithAudio = document.getElementById("enterWithAudio");
+    const enterSilent = document.getElementById("enterSilent");
+    const audioStateLabel = document.getElementById("audioStateLabel");
+    const liveTime = document.getElementById("liveTime");
+    const clockCaption = document.getElementById("clockCaption");
+    const hourHand = document.getElementById("hourHand");
+    const minuteHand = document.getElementById("minuteHand");
+    const secondHand = document.getElementById("secondHand");
+    const clockFace = document.getElementById("clockFace");
+    const clockNumbers = document.getElementById("clockNumbers");
 
-    for (let i = 0; i < 45; i++) {
-      const particle = document.createElement("div");
-      particle.classList.add("particle");
-      particle.style.left = Math.random() * 100 + "vw";
-      particle.style.height = 30 + Math.random() * 80 + "px";
-      particle.style.animationDuration = 4 + Math.random() * 8 + "s";
-      particle.style.animationDelay = Math.random() * 5 + "s";
-      particle.style.opacity = 0.08 + Math.random() * 0.35;
-      particlesContainer.appendChild(particle);
-    }
-
-    // Efecto reveal al hacer scroll
+    const hoverables = document.querySelectorAll(".btn, .tag, .panel");
     const reveals = document.querySelectorAll(".reveal");
 
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let cursorX = mouseX;
+    let cursorY = mouseY;
+
+    let audioCtx = null;
+    let masterGain = null;
+    let ambientNodes = [];
+    let audioStarted = false;
+
+    // =========================
+    // Cursor
+    // =========================
+    window.addEventListener("mousemove", (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function animateCursor(){
+      cursorX += (mouseX - cursorX) * 0.18;
+      cursorY += (mouseY - cursorY) * 0.18;
+      cursor.style.left = cursorX + "px";
+      cursor.style.top = cursorY + "px";
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    hoverables.forEach(el => {
+      el.addEventListener("mouseenter", () => cursor.classList.add("active"));
+      el.addEventListener("mouseleave", () => cursor.classList.remove("active"));
+    });
+
+    // =========================
+    // Ojo siguiendo cursor
+    // =========================
+    function updateEye(e){
+      const svgRect = pupilGroup.ownerSVGElement.getBoundingClientRect();
+      const centerX = svgRect.left + svgRect.width / 2;
+      const centerY = svgRect.top + svgRect.height / 2;
+
+      const dx = e.clientX - centerX;
+      const dy = e.clientY - centerY;
+
+      const angle = Math.atan2(dy, dx);
+      const dist = Math.min(18, Math.hypot(dx, dy) / 18);
+
+      const x = Math.cos(angle) * dist;
+      const y = Math.sin(angle) * dist;
+
+      pupilGroup.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    window.addEventListener("mousemove", updateEye);
+
+    // =========================
+    // Reveal on scroll
+    // =========================
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
+        if(entry.isIntersecting){
           entry.target.classList.add("visible");
         }
       });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.14 });
 
     reveals.forEach(el => observer.observe(el));
 
-    // Botón de mensaje temático
-    const truthBtn = document.getElementById("truthBtn");
-    const terminal = document.getElementById("terminal");
-
-    const messages = [
-      "> Reescribiendo archivos del pasado...",
-      "> Detectando pensamiento crítico...",
-      "> La verdad oficial ha sido actualizada.",
-      "> La libertad comienza cuando alguien duda.",
-      "> El poder absoluto no solo vigila: redefine la realidad.",
-      "> Winston Smith ha sido marcado como elemento inestable.",
-      "> El lenguaje reducido produce mentes reducidas.",
-      "> George Orwell convirtió el miedo político en literatura inmortal."
-    ];
-
-    let current = 0;
-
-    truthBtn.addEventListener("click", () => {
-      terminal.textContent = messages[current];
-      current = (current + 1) % messages.length;
-    });
-
-    // Destello ligero del título con el movimiento del mouse
-    const heroTitle = document.querySelector("h1");
+    // =========================
+    // Parallax overlays
+    // =========================
+    const fog = document.querySelector(".overlay-fog");
+    const beams = document.querySelector(".overlay-beams");
+    const noise = document.querySelector(".overlay-noise");
+    const bloom = document.querySelector(".overlay-bloom");
 
     window.addEventListener("mousemove", (e) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 20;
-      const y = (e.clientY / window.innerHeight - 0.5) * 20;
-      heroTitle.style.textShadow = `${x}px ${y}px 24px rgba(255,0,0,0.25)`;
+      const px = (e.clientX / window.innerWidth - 0.5);
+      const py = (e.clientY / window.innerHeight - 0.5);
+
+      fog.style.transform = `translate(${px * 22}px, ${py * 14}px) scale(1.05)`;
+      beams.style.transform = `translate(${px * 14}px, ${py * 10}px)`;
+      noise.style.transform = `translate(${px * 8}px, ${py * 6}px)`;
+      bloom.style.transform = `translate(${px * 16}px, ${py * 12}px)`;
     });
+
+    // =========================
+    // Micro glitch ocasional
+    // =========================
+    function randomGlitch(){
+      const amount = (Math.random() * 1.5 + 0.4).toFixed(2);
+      document.body.style.filter = `contrast(1.04) brightness(0.98) saturate(1.03) hue-rotate(${Math.random() * 2 - 1}deg)`;
+      document.body.style.transform = `translateX(${(Math.random() - 0.5) * 0.9}px)`;
+      setTimeout(() => {
+        document.body.style.filter = "";
+        document.body.style.transform = "";
+      }, 90 + Math.random() * 120);
+
+      setTimeout(randomGlitch, 2600 + Math.random() * 5200 + Number(amount) * 80);
+    }
+    randomGlitch();
+
+    // =========================
+    // Reloj metálico
+    // =========================
+    function buildClockTicks(){
+      for(let i = 0; i < 60; i++){
+        const tick = document.createElement("div");
+        tick.className = "tick" + (i % 5 === 0 ? " major" : "");
+        tick.style.transform = `translate(-50%, -50%) rotate(${i * 6}deg)`;
+        clockFace.appendChild(tick);
+      }
+
+      const numbers = [
+        { n: "12", x: 50, y: 13 },
+        { n: "3", x: 87, y: 50 },
+        { n: "6", x: 50, y: 87 },
+        { n: "9", x: 13, y: 50 }
+      ];
+
+      numbers.forEach(item => {
+        const span = document.createElement("span");
+        span.textContent = item.n;
+        span.style.left = item.x + "%";
+        span.style.top = item.y + "%";
+        clockNumbers.appendChild(span);
+      });
+    }
+    buildClockTicks();
+
+    function updateClock(){
+      const now = new Date();
+      const hrs = now.getHours();
+      const min = now.getMinutes();
+      const sec = now.getSeconds();
+      const ms = now.getMilliseconds();
+
+      const smoothSec = sec + ms / 1000;
+      const smoothMin = min + smoothSec / 60;
+      const smoothHrs = (hrs % 12) + smoothMin / 60;
+
+      const hourDeg = smoothHrs * 30;
+      const minuteDeg = smoothMin * 6;
+      const secondDeg = smoothSec * 6;
+
+      hourHand.style.transform = `translate(-50%, -100%) rotate(${hourDeg}deg)`;
+      minuteHand.style.transform = `translate(-50%, -100%) rotate(${minuteDeg}deg)`;
+      secondHand.style.transform = `translate(-50%, -100%) rotate(${secondDeg}deg)`;
+
+      const hh = String(hrs).padStart(2, "0");
+      const mm = String(min).padStart(2, "0");
+      const ss = String(sec).padStart(2, "0");
+
+      liveTime.textContent = `${hh}:${mm}:${ss}`;
+      clockCaption.textContent = `hora oficial del sistema / ${hh}:${mm}:${ss}`;
+
+      requestAnimationFrame(updateClock);
+    }
+    updateClock();
+
+    // =========================
+    // Partículas
+    // =========================
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+
+    let particles = [];
+    let particleCount = 170;
+
+    function resizeCanvas(){
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.floor(window.innerWidth * dpr);
+      canvas.height = Math.floor(window.innerHeight * dpr);
+      canvas.style.width = window.innerWidth + "px";
+      canvas.style.height = window.innerHeight + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      createParticles();
+    }
+
+    function createParticles(){
+      particles = [];
+      const count = window.innerWidth < 768 ? 90 : particleCount;
+
+      for(let i = 0; i < count; i++){
+        particles.push({
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight,
+          r: Math.random() * 2.2 + 0.4,
+          vx: (Math.random() - 0.5) * 0.2,
+          vy: Math.random() * 0.45 + 0.08,
+          a: Math.random() * 0.5 + 0.08,
+          hue: Math.random() > 0.93 ? "red" : "white"
+        });
+      }
+    }
+
+    function drawParticles(){
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+      for(const p of particles){
+        p.x += p.vx + (mouseX / window.innerWidth - 0.5) * 0.08;
+        p.y += p.vy;
+
+        if(p.y > window.innerHeight + 10){
+          p.y = -10;
+          p.x = Math.random() * window.innerWidth;
+        }
+
+        if(p.x < -10) p.x = window.innerWidth + 10;
+        if(p.x > window.innerWidth + 10) p.x = -10;
+
+        const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 8);
+        if(p.hue === "red"){
+          grad.addColorStop(0, `rgba(224, 51, 51, ${p.a})`);
+          grad.addColorStop(.4, `rgba(185, 20, 20, ${p.a * .35})`);
+          grad.addColorStop(1, `rgba(185, 20, 20, 0)`);
+        }else{
+          grad.addColorStop(0, `rgba(255,255,255,${p.a})`);
+          grad.addColorStop(.45, `rgba(255,245,220,${p.a * .2})`);
+          grad.addColorStop(1, `rgba(255,255,255,0)`);
+        }
+
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r * 8, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      requestAnimationFrame(drawParticles);
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+    drawParticles();
+
+    // =========================
+    // Audio ambiental procedural
+    // =========================
+    function createNoiseBuffer(context, seconds = 2){
+      const sampleRate = context.sampleRate;
+      const buffer = context.createBuffer(1, sampleRate * seconds, sampleRate);
+      const data = buffer.getChannelData(0);
+
+      for(let i = 0; i < data.length; i++){
+        data[i] = Math.random() * 2 - 1;
+      }
+      return buffer;
+    }
+
+    function startAmbientAudio(){
+      if(audioStarted) return;
+      audioStarted = true;
+
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      masterGain = audioCtx.createGain();
+      masterGain.gain.value = 0.0001;
+      masterGain.connect(audioCtx.destination);
+
+      const now = audioCtx.currentTime;
+
+      // Dron grave
+      const drone1 = audioCtx.createOscillator();
+      const drone1Gain = audioCtx.createGain();
+      drone1.type = "sine";
+      drone1.frequency.value = 41.2;
+      drone1Gain.gain.value = 0.05;
+      drone1.connect(drone1Gain).connect(masterGain);
+      drone1.start();
+
+      const drone2 = audioCtx.createOscillator();
+      const drone2Gain = audioCtx.createGain();
+      drone2.type = "triangle";
+      drone2.frequency.value = 55;
+      drone2Gain.gain.value = 0.022;
+      drone2.connect(drone2Gain).connect(masterGain);
+      drone2.start();
+
+      // LFO para respirar
+      const lfo = audioCtx.createOscillator();
+      const lfoGain = audioCtx.createGain();
+      lfo.type = "sine";
+      lfo.frequency.value = 0.07;
+      lfoGain.gain.value = 0.015;
+      lfo.connect(lfoGain);
+      lfoGain.connect(drone1Gain.gain);
+      lfo.start();
+
+      // Ruido filtrado
+      const noiseSrc = audioCtx.createBufferSource();
+      noiseSrc.buffer = createNoiseBuffer(audioCtx, 3);
+      noiseSrc.loop = true;
+
+      const noiseFilter = audioCtx.createBiquadFilter();
+      noiseFilter.type = "lowpass";
+      noiseFilter.frequency.value = 420;
+      noiseFilter.Q.value = 0.7;
+
+      const noiseGain = audioCtx.createGain();
+      noiseGain.gain.value = 0.018;
+
+      noiseSrc.connect(noiseFilter);
+      noiseFilter.connect(noiseGain);
+      noiseGain.connect(masterGain);
+      noiseSrc.start();
+
+      // Pulsos metálicos lejanos
+      const pulseGain = audioCtx.createGain();
+      pulseGain.gain.value = 0.0;
+      pulseGain.connect(masterGain);
+
+      const pulseOsc = audioCtx.createOscillator();
+      pulseOsc.type = "triangle";
+      pulseOsc.frequency.value = 110;
+      pulseOsc.connect(pulseGain);
+      pulseOsc.start();
+
+      function schedulePulse(){
+        if(!audioCtx) return;
+        const t = audioCtx.currentTime;
+        pulseGain.gain.cancelScheduledValues(t);
+        pulseGain.gain.setValueAtTime(0.0, t);
+        pulseGain.gain.linearRampToValueAtTime(0.018, t + 0.02);
+        pulseGain.gain.exponentialRampToValueAtTime(0.0001, t + 1.25);
+
+        const next = 3 + Math.random() * 5;
+        setTimeout(schedulePulse, next * 1000);
+      }
+      setTimeout(schedulePulse, 1400);
+
+      // Reverb simple con delay corto
+      const delay = audioCtx.createDelay();
+      delay.delayTime.value = 0.18;
+      const feedback = audioCtx.createGain();
+      feedback.gain.value = 0.22;
+      delay.connect(feedback);
+      feedback.connect(delay);
+      delay.connect(masterGain);
+
+      drone2Gain.connect(delay);
+      noiseGain.connect(delay);
+
+      // Fade in
+      masterGain.gain.exponentialRampToValueAtTime(0.09, now + 3);
+
+      ambientNodes = [
+        drone1, drone1Gain,
+        drone2, drone2Gain,
+        lfo, lfoGain,
+        noiseSrc, noiseFilter, noiseGain,
+        pulseOsc, pulseGain,
+        delay, feedback
+      ];
+
+      audioStateLabel.textContent = "activo";
+    }
+
+    function stopAmbientAudio(){
+      if(!audioCtx || !masterGain) return;
+      const t = audioCtx.currentTime;
+      masterGain.gain.cancelScheduledValues(t);
+      masterGain.gain.setValueAtTime(Math.max(masterGain.gain.value, 0.0001), t);
+      masterGain.gain.exponentialRampToValueAtTime(0.0001, t + 1.2);
+
+      setTimeout(() => {
+        ambientNodes.forEach(node => {
+          try{
+            if(typeof node.stop === "function") node.stop();
+          }catch(e){}
+          try{
+            if(typeof node.disconnect === "function") node.disconnect();
+          }catch(e){}
+        });
+        ambientNodes = [];
+        if(audioCtx){
+          audioCtx.close();
+          audioCtx = null;
+        }
+        audioStarted = false;
+        audioStateLabel.textContent = "inactivo";
+      }, 1400);
+    }
+
+    // =========================
+    // Intro
+    // =========================
+    function enterScene(withAudio){
+      intro.classList.add("hidden");
+      document.body.style.overflowY = "auto";
+
+      if(withAudio){
+        startAmbientAudio();
+      }else{
+        audioStateLabel.textContent = "silencio";
+      }
+    }
+
+    enterWithAudio.addEventListener("click", () => enterScene(true));
+    enterSilent.addEventListener("click", () => enterScene(false));
+
+    // =========================
+    // Tecla M para mutear/reactivar
+    // =========================
+    window.addEventListener("keydown", (e) => {
+      if(e.key.toLowerCase() === "m"){
+        if(audioStarted){
+          stopAmbientAudio();
+        }else{
+          startAmbientAudio();
+        }
+      }
+    });
+
+    // =========================
+    // Pequeña vibración del ojo
+    // =========================
+    function eyeMicroMotion(){
+      const x = (Math.random() - 0.5) * 1.6;
+      const y = (Math.random() - 0.5) * 1.6;
+      pupilGroup.style.filter = `drop-shadow(${x}px ${y}px 1px rgba(185,20,20,.12))`;
+      setTimeout(eyeMicroMotion, 800 + Math.random() * 1800);
+    }
+    eyeMicroMotion();
   </script>
 </body>
 </html>
